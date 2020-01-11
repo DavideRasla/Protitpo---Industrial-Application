@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!--<link rel="stylesheet" href="snow.css">-->
+        <style>
+            body {
+                background-color: #1565c0;
+                height:600px;
+            }
+            .col-dimensions{
+                height: 100px;
+                padding: 5px;
+            }
+            .card_bg{
+                background-color: #1565c0;
+                border-color: #EFEFEF;
+
+            }
+            .white-box {
+                background-color: #EFEFEF;  
+            }
+            .btn-outline-primary:hover {
+                color: #fff;
+                background-color: #1565c0 !important;
+                border-color: #1565c0 !important;
+            }
+            .btn-outline-primary{
+                color: #1565c0 ;
+                border-color: #1565c0 !important;
+            }
+
+            .card-text{
+                text-align: center;
+            }
+        </style>
+        <title>Snow - login</title>
+    </head>
+    <body>
+        <div class="container h-100">
+            <div class="row h-100 row align-items-center">
+                <div class="col-sm"></div>
+                <div class="col-sm">
+                    <div class="card card_bg">
+                        <img src="{{ url_for('static', filename='assets/voicerec.jpg') }}" class="card-img-top">
+                        <div class="card-body white-box">
+                            <h5 class="card-title" style="text-align: center;">Voice</h5>
+                            <p class="card-text">Authanticate through our speaker recognition service!</p>
+                            <button type="button" class="btn btn-outline-primary btn-block btn-margin">Authenticate!</button>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="card card_bg">
+                        <img src="{{ url_for('static', filename='assets/facerec.jpg') }}" class="card-img-top">
+                        <div class="card-body white-box">
+                            <h5 class="card-title" style="text-align: center;">Face</h5>
+                            <p class="card-text">Authanticate with our face recognition service!</p>
+                            <button type="button" class="btn btn-outline-primary btn-block btn-margin">Authenticate!</button>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-sm"></div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>
