@@ -11,7 +11,8 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/start', methods=('GET', 'POST'))
 def start():
-     return render_template('auth.html')
+     #return render_template('auth.html')
+     return render_template('index.html')
 
 
 @bp.route('/register', methods=('GET', 'POST'))
