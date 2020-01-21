@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script type="text/javascript" src="../../static/js/webcam.js"></script>
         <!--<link rel="stylesheet" href="snow.css">-->
         <style>
             body {
@@ -35,38 +36,60 @@
             .card-text{
                 text-align: center;
             }
+            #my_camera{
+                width: 640px; 
+                height: 480px;
+                border: 1px solid black;
+           }
+            #login_box{
+                position: absolute;
+                left: 35%;
+                top: 10%;
+                width: 640px;
+                height: 480px;
+            }
+            #results{
+                border: 2px solid black;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                padding: 20px; 
+                width: 400px;
+                height:100%;
+            }
         </style>
         <title>Snow - login</title>
+  <!-- CSS -->
     </head>
-    <body>
-        <div class="container h-100">
-            <div class="row h-100 row align-items-center">
-                <div class="col-sm"></div>
-                <div class="col-sm">
-                    <div class="card card_bg">
-                        <img src="{{ url_for('static', filename='assets/voicerec.jpg') }}" class="card-img-top">
-                        <div class="card-body white-box">
-                            <h5 class="card-title" style="text-align: center;">Voice</h5>
-                            <p class="card-text">Authanticate through our speaker recognition service!</p>
-                            <button type="button" class="btn btn-outline-primary btn-block btn-margin">Authenticate!</button>
-                          </div>
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="card card_bg">
-                        <img src="{{ url_for('static', filename='assets/facerec.jpg') }}" class="card-img-top">
-                        <div class="card-body white-box">
-                            <h5 class="card-title" style="text-align: center;">Face</h5>
-                            <p class="card-text">Authanticate with our face recognition service!</p>
-                            <button type="button" class="btn btn-outline-primary btn-block btn-margin">Authenticate!</button>
-                          </div>
-                    </div>
-                </div>
-                <div class="col-sm"></div>
-            </div>
+    <div id = login_box>
+    <div id="my_camera">
+
+    </div>
+    <input type=button value="Take Snapshot" style="position: relative; right:10px; top: 10px;" onClick="take_snapshot()">
+    <input type=button value="Save Snapshot" style="position: relative; left:10px; top: 10px;" onClick="saveSnap()">
+    </div>
+    <div id="results" >
+        <p>Parameters:</p>
+        <div id = "User_Snapshot" style="position:inherit; width: 100px; height: 100px;"></div>
+    </div>
+    <div id="controls">
+            <button id="recordButton">Record</button>
+            <button id="pauseButton" disabled>Pause</button>
+            <button id="stopButton" disabled>Stop</button>
         </div>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </body>
+    
+    <!-- Configure a few settings and attach camera -->
+
+        <script type = "text/javascript" src="../../static/js/CustomWebcam.js">
+
+
+    Webcam.set({
+      width: 640,
+      height: 480,
+      image_format: 'jpeg',
+      jpeg_quality: 90
+     });
+     Webcam.attach( '#my_camera' ); 
+     </script>      
+     
 </html>
