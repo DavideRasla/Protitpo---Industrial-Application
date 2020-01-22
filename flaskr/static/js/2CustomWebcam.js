@@ -19,10 +19,7 @@
         //console.log(text);
         });   } 
 
-        node.onaudioprocess = function(data) {
-            var leftChannel = data.inputBuffer.getChannelData(0).buffer;
-            var rightChannel = data.inputBuffer.getChannelData(1).buffer;
-        }
+
 
 
         URL = window.URL || window.webkitURL;
@@ -39,10 +36,7 @@
         var stopButton = document.getElementById("stopButton");
         var pauseButton = document.getElementById("pauseButton");
         
-        //add events to those 2 buttons
-        recordButton.addEventListener("click", startRecording);
-        stopButton.addEventListener("click", stopRecording);
-        pauseButton.addEventListener("click", pauseRecording);
+;
         
         function startRecording() {
             console.log("recordButton clicked");
