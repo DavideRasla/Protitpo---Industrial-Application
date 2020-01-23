@@ -40,7 +40,7 @@ def register():
         flash(error)
 
 
-    return render_template('auth/register.html')
+    return render_template('auth/register_v2.html')
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():

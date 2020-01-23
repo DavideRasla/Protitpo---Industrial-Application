@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>SNOW</title>
+	<title>Login V15</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}"/>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
 <!--===============================================================================================-->
@@ -32,30 +32,88 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title title_padding_bg" style="background-image: url({{ url_for('static', filename='assets/self_1.jpg') }}) ;">
-					<div class="login100-form-title-1" >
-						<img src="{{ url_for('static', filename='assets/logo_transparent.png') }}" width="300px">
+				<div class="login100-form-title title_padding" >
+					<span class="login100-form-title-1">
+						Registration form
+					</span>
+				</div>
+				<div class="stepwizard">
+					<div class="stepwizard-row setup-panel">
+						<div class="stepwizard-step">
+							<a id="step-1" href="#step-1" type="button" class="btn btn-default btn-circle btn-blue">1</a>
+							<p>Step 1</p>
+						</div>
+						<div class="stepwizard-step">
+							<a id="step-2" href="#step-2" type="button" class="btn btn-default btn-circle btn-white" disabled="disabled">2</a>
+							<p>Step 2</p>
+						</div>
+						<div class="stepwizard-step">
+							<a id="step-3" href="#step-3" type="button" class="btn btn-default btn-circle btn-white" disabled="disabled">3</a>
+							<p>Step 3</p>
+						</div>
 					</div>
 				</div>
+				<form class="login100-form form_padding">
+					
+					<div id="step1">
+						<div class="wrap-input100 validate-input m-b-26" >
+							<span class="label-input100">Name</span>
+							<input class="input100" type="text" name="username" placeholder="Name">
+							<span class="focus-input100"></span>
+						</div>
 
-				<form class="login100-form validate-form login_padding">
-					<div class="wrap-input100 validate-input m-b-18 center">
-						<p >Welcome to SNOW!</br>Log in to your account or create a new one!</p>
+						<div class="wrap-input100 validate-input m-b-18" >
+							<span class="label-input100">Last name</span>
+							<input class="input100" type="password" name="pass" placeholder="Last name">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-18" >
+							<span class="label-input100">Email</span>
+							<input class="input100" type="password" name="pass" placeholder="Email">
+							<span class="focus-input100"></span>
+						</div>
+					</div>
+					<div id="step2" style="display: none;">
+						<div class="wrap-input100 validate-input m-b-26" >
+							<span class="label-input100">a</span>
+							<input class="input100" type="text" name="username" placeholder="Name">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-18" >
+							<span class="label-input100">b</span>
+							<input class="input100" type="password" name="pass" placeholder="Last name">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-18" >
+							<span class="label-input100">c</span>
+							<input class="input100" type="password" name="pass" placeholder="Email">
+							<span class="focus-input100"></span>
+						</div>
+					</div>
+					<div id="step3" style="display: none;">
+						<div class="wrap-input100 validate-input m-b-26" >
+							<span class="label-input100">d</span>
+							<input class="input100" type="text" name="username" placeholder="Name">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-18" >
+							<span class="label-input100">e</span>
+							<input class="input100" type="password" name="pass" placeholder="Last name">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-18" >
+							<span class="label-input100">f</span>
+							<input class="input100" type="password" name="pass" placeholder="Email">
+							<span class="focus-input100"></span>
+						</div>
 					</div>
 
-					<!--<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
-						<span class="label-input100">Username</span>
-						<input class="input100" type="text" name="username" placeholder="Enter username">
-						<span class="focus-input100"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
-						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="pass" placeholder="Enter password">
-						<span class="focus-input100"></span>
-					</div>
-
-					<div class="flex-sb-m w-full p-b-30">
+					<!--<div class="flex-sb-m w-full p-b-30">
 						<div class="contact100-form-checkbox">
 							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
 							<label class="label-checkbox100" for="ckb1">
@@ -68,20 +126,16 @@
 								Forgot Password?
 							</a>
 						</div>
-					</div>-->
-					<div class="flex-sb-m w-full p-b-30">
-						<div class="container-login100-form-btn">
-							<a class="login100-form-btn" href="{{ url_for('auth.login') }}">
-								Login
-							</a>
-						</div>
-						<div class="container-login100-form-btn content_left" >
-							<a class="login100-form-btn" href="{{ url_for('auth.register') }}">
-								Register
-							</a>
-						</div>
+					</div> -->
+
+					<div class="container-login100-form-btn content_left">
+						<button type="button" class="login100-form-btn" onclick="preStep();">
+							Back
+						</button>
+						<button type="button" class="login100-form-btn" onclick="nextStep();">
+							Next
+						</button>
 					</div>
-					
 				</form>
 			</div>
 		</div>
@@ -103,6 +157,28 @@
 	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+	<script>
+		var step = 3;
+		var actual_step = 1;
+		function nextStep(){
+			$("#step"+actual_step).hide();
+			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
+			if(actual_step == step)
+				actual_step = 1;
+			else
+				actual_step +=1;
+			$("#step"+actual_step).show();
+			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
+		}
 
+		function preStep(){
+			$("#step"+actual_step).hide();
+			if(actual_step == 1)
+				actual_step = step;
+			else
+				actual_step -=1;
+			$("#step"+actual_step).show();
+		}
+	</script>
 </body>
 </html>
