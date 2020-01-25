@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}"/>
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
 <!--===============================================================================================-->
@@ -26,6 +26,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 <!--===============================================================================================-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 <body>
 	
@@ -64,51 +67,59 @@
 
 						<div class="wrap-input100 validate-input m-b-18" >
 							<span class="label-input100">Last name</span>
-							<input class="input100" type="password" name="pass" placeholder="Last name">
+							<input class="input100" type="password" name="lastname" placeholder="Last name">
 							<span class="focus-input100"></span>
 						</div>
 
 						<div class="wrap-input100 validate-input m-b-18" >
 							<span class="label-input100">Email</span>
-							<input class="input100" type="password" name="pass" placeholder="Email">
+							<input class="input100" type="password" name="email" placeholder="Email">
 							<span class="focus-input100"></span>
 						</div>
 					</div>
 					<div id="step2" style="display: none;">
 						<div class="wrap-input100 validate-input m-b-26" >
-							<span class="label-input100">a</span>
-							<input class="input100" type="text" name="username" placeholder="Name">
+							<span class="label-input100">Birthday</span>
+							<input class="input100" type="text" name="birthday" placeholder="Birthday">
 							<span class="focus-input100"></span>
 						</div>
 
 						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">b</span>
-							<input class="input100" type="password" name="pass" placeholder="Last name">
+							<span class="label-input100">Address</span>
+							<input class="input100" type="password" name="addr" placeholder="Address">
 							<span class="focus-input100"></span>
 						</div>
 
-						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">c</span>
-							<input class="input100" type="password" name="pass" placeholder="Email">
+						<div class="wrap-input100 validate-input m-b-18 form-check form-check-inline" >
+							<span class="label-input100">Sex</span>
+							<input type="radio" class="form-check-input" name="sx" value="M" id="sxm">
+							<label class="form-check-label" for="sxm">M</label>
+							<input type="radio" class="form-check-input" name="sx" value="F" id="sxf">
+							<label class="form-check-label" for="sxf">F</label>
 							<span class="focus-input100"></span>
 						</div>
 					</div>
 					<div id="step3" style="display: none;">
 						<div class="wrap-input100 validate-input m-b-26" >
-							<span class="label-input100">d</span>
-							<input class="input100" type="text" name="username" placeholder="Name">
+							<span class="label-input100">Social</span>
+							<select class="form-control" style="width: 100%;" id="social" name="social[]" multiple="multiple">
+								<option value="fb">Facebook</option>
+								<option value="tw">Twitter</option>
+								<option value="inst">Instagram</option>
+							</select>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-18" >
+							<span class="label-input100">Interest</span>
+							<select class="form-control" style="width: 100%;" id="Interest" name="Interest[]" multiple="multiple">
+							</select>
 							<span class="focus-input100"></span>
 						</div>
 
 						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">e</span>
-							<input class="input100" type="password" name="pass" placeholder="Last name">
-							<span class="focus-input100"></span>
-						</div>
-
-						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">f</span>
-							<input class="input100" type="password" name="pass" placeholder="Email">
+							<span class="label-input100">Music</span>
+							<select class="form-control" style="width: 100%;" id="music" name="music[]" multiple="multiple">
+							</select>
 							<span class="focus-input100"></span>
 						</div>
 					</div>
@@ -157,6 +168,8 @@
 	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 	<script>
 		var step = 3;
 		var actual_step = 1;
@@ -173,12 +186,28 @@
 
 		function preStep(){
 			$("#step"+actual_step).hide();
+			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
 			if(actual_step == 1)
 				actual_step = step;
 			else
 				actual_step -=1;
 			$("#step"+actual_step).show();
+			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
 		}
+
+		$(document).ready(function(){
+			var date_input=$('input[name="birthday"]'); //our date input has the name "date"
+			var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+			var options={
+				format: 'dd/mm/yyyy',
+				container: container,
+				todayHighlight: true,
+				autoclose: true,
+			};
+			date_input.datepicker(options);
+
+			$('#social').select2();
+		})
 	</script>
 </body>
 </html>
