@@ -69,20 +69,15 @@
 							</a>
 						</div>
 					</div>-->
-					<div class="flex-sb-m w-full p-b-30">
-						<div class="container-login100-form-btn">
-							<a class="login100-form-btn" href="{{ url_for('auth.login') }}">
-								Login
-							</a>
-						</div>
-						<div class="container-login100-form-btn content_left" >
-							<a class="login100-form-btn" href="{{ url_for('auth.register') }}">
-								Register
-							</a>
-						</div>
-					</div>
-					
 				</form>
+				<div class="container-login100-form-btn " style="display: flex; padding:5px;justify-content: flex-end;">
+					<a class="login100-form-btn" href="{{ url_for('auth.login') }}" style="margin-right: auto;">
+						Login
+					</a>
+					<a class="login100-form-btn" href="{{ url_for('auth.register') }}">
+						Register
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>

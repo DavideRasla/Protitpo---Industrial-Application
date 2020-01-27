@@ -31,7 +31,6 @@
 
 </head>
 <body>
-	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -54,9 +53,17 @@
 							<a id="step-3" href="#step-3" type="button" class="btn btn-default btn-circle btn-white" disabled="disabled">3</a>
 							<p>Step 3</p>
 						</div>
+						<div class="stepwizard-step">
+							<a id="step-4" href="#step-4" type="button" class="btn btn-default btn-circle btn-white" disabled="disabled">4</a>
+							<p>Step 4</p>
+						</div>
+						<div class="stepwizard-step">
+							<a id="step-5" href="#step-5" type="button" class="btn btn-default btn-circle btn-white" disabled="disabled">5</a>
+							<p>End</p>
+						</div>
 					</div>
 				</div>
-				<form class="login100-form form_padding">
+				<form class="login100-form form_padding" id="form">
 					
 					<div id="step1">
 						<div class="wrap-input100 validate-input m-b-26" >
@@ -90,7 +97,7 @@
 							<span class="focus-input100"></span>
 						</div>
 
-						<div class="wrap-input100 validate-input m-b-18 form-check form-check-inline" >
+						<div class="wrap-input100 validate-input m-b-18 form-check form-check-inline" style="padding-left: 20px;">
 							<span class="label-input100">Sex</span>
 							<input type="radio" class="form-check-input" name="sx" value="M" id="sxm">
 							<label class="form-check-label" for="sxm">M</label>
@@ -138,16 +145,21 @@
 							</a>
 						</div>
 					</div> -->
-
-					<div class="container-login100-form-btn content_left">
-						<button type="button" class="login100-form-btn" onclick="preStep();">
-							Back
-						</button>
-						<button type="button" class="login100-form-btn" onclick="nextStep();">
-							Next
-						</button>
+					<div id="step4" style="display: none;">
+						<div id="my_camera"></div>
 					</div>
 				</form>
+				<div id="step5" style="display: none;" class="formend">
+					<button id="complete" type="button" class="btn-custom btn-blue ">Complete Registration</button>
+				</div>
+				<div class="container-login100-form-btn " style="display: flex; padding:5px;justify-content: flex-end;">
+					<button id="bkbtn" type="button" class="login100-form-btn float-left" onclick="preStep();" style="display: none; margin-right: auto;">
+						Back
+					</button>
+					<button id="nxbtn" type="button" class="login100-form-btn float-right" onclick="nextStep();" >
+						Next
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -166,34 +178,68 @@
 	<script src="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/webcam.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 	<script>
-		var step = 3;
+		var step = 5;
 		var actual_step = 1;
 		function nextStep(){
+			if(step == actual_step)
+				return;
 			$("#step"+actual_step).hide();
 			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
-			if(actual_step == step)
-				actual_step = 1;
-			else
-				actual_step +=1;
+			if(actual_step == step-1)
+				$("#form").hide();
+			actual_step+=1;
 			$("#step"+actual_step).show();
 			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
+			if(actual_step == step){
+				$("#nxbtn").hide();
+			}
+			else{
+				$("#nxbtn").show();
+			}
+			if(actual_step == 1){
+				$("#bkbtn").hide();
+			}
+			else{
+				$("#bkbtn").show();
+			}
 		}
 
 		function preStep(){
+			if(actual_step == 1)
+				return;
 			$("#step"+actual_step).hide();
 			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
-			if(actual_step == 1)
-				actual_step = step;
-			else
-				actual_step -=1;
+			if(actual_step == step)
+				$("#form").show();
+			actual_step -=1;
 			$("#step"+actual_step).show();
 			$("#step-"+actual_step).toggleClass("btn-blue btn-white");
+			if(actual_step == step){
+				$("#nxbtn").hide();
+			}
+			else{
+				$("#nxbtn").show();
+			}
+			if(actual_step == 1){
+				$("#bkbtn").hide();
+			}
+			else{
+				$("#bkbtn").show();
+			}
 		}
+		Webcam.set({
+			width: 300,
+			height: 300,
+			image_format: 'jpeg',
+			jpeg_quality: 90
+		});
+       	Webcam.attach( '#my_camera' ); 
 
 		$(document).ready(function(){
 			var date_input=$('input[name="birthday"]'); //our date input has the name "date"

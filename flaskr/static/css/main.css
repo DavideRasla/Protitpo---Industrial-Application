@@ -5,6 +5,13 @@ body{
   /*margin-top:40px; */
 }
 
+.formend{
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .select2-search__field{
   width: 100% !important;
 }
@@ -57,6 +64,35 @@ body{
   
 }
 
+.btn-custom{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  min-width: 160px;
+  height: 50px;
+  border-radius: 25px;
+
+  font-family: Poppins-Regular;
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.2;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.btn-custom:hover {
+  background-color: #333333;
+  border: 1px solid #333333;
+}
+
 .btn-white{
   background-color: white;
   border:1px solid #5A7684;
@@ -69,13 +105,13 @@ body{
 }
 
 .title_padding_bg{
-  padding: 70px 15px 74px 15px;
+  padding: 10px 15px 10px 15px;
 }
 .title_padding{
   padding: 30px 15px 30px 15px;
 }
 .login_padding{
-  padding: 40px 40px 40px 40px;
+  padding: 0px 40px 0px 40px;
 }
 
 .form_padding{
@@ -84,7 +120,10 @@ body{
 }
 
 .center{
+  display: flex;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 .content_left{
   justify-content: flex-end;
@@ -332,6 +371,7 @@ iframe {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  min-height: 400px;
   
 }
 
