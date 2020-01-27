@@ -94,6 +94,8 @@
 <!--#####################################################################################################################################################################-->
     
     <script >
+//global variables
+var usercount = 0;
    function dataURItoBlob(dataURI) {
   // convert base64 to raw binary data held in a string
   // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
@@ -267,7 +269,7 @@ function createDownloadLink_IMAGE(blob) {
 	var au = document.createElement('image');
 	var li = document.createElement('li');
 	var link = document.createElement('a');
-
+	
 	//name of .wav file to use during upload and download (without extendion)
 	var filename = new Date().toISOString();
 
@@ -277,14 +279,15 @@ function createDownloadLink_IMAGE(blob) {
 
 	//save to disk link
 	link.href = url;
-	link.download = filename+".jpg"; //download forces the browser to donwload the file using the  filename
+	link.download = "New_User"+usercount+".jpg"; //download forces the browser to donwload the file using the  filename
 	link.innerHTML = "Save to disk";
 
 	//add the new audio element to li
 	li.appendChild(au);
 	
 	//add the filename to the li
-	li.appendChild(document.createTextNode("Users.jpg "))
+	li.appendChild(document.createTextNode("New_User"+usercount+".jpg "))
+	usercount++;
 
 	//add the save to disk link to li
 	li.appendChild(link);
