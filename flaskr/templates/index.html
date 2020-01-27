@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V15</title>
+	<title>SNOW</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -32,14 +32,18 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url({{ url_for('static', filename='assets/self_1.jpg') }}) ;">
+				<div class="login100-form-title title_padding_bg" style="background-image: url({{ url_for('static', filename='assets/self_1.jpg') }}) ;">
 					<div class="login100-form-title-1" >
-						<img src="{{ url_for('static', filename='assets/logo_transparent.png') }}" width="350px">
+						<img src="{{ url_for('static', filename='assets/logo_transparent.png') }}" width="300px">
 					</div>
 				</div>
 
-				<form class="login100-form validate-form">
-					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+				<form class="login100-form validate-form login_padding">
+					<div class="wrap-input100 validate-input m-b-18 center">
+						<p >Welcome to SNOW!</br>Log in to your account or create a new one!</p>
+					</div>
+
+					<!--<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
 						<span class="label-input100">Username</span>
 						<input class="input100" type="text" name="username" placeholder="Enter username">
 						<span class="focus-input100"></span>
@@ -64,17 +68,17 @@
 								Forgot Password?
 							</a>
 						</div>
-					</div>
+					</div>-->
 					<div class="flex-sb-m w-full p-b-30">
 						<div class="container-login100-form-btn">
-							<button class="login100-form-btn">
+							<a class="login100-form-btn" href="{{ url_for('auth.login') }}">
 								Login
-							</button>
+							</a>
 						</div>
-						<div class="container-login100-form-btn" >
-							<button class="login100-form-btn">
+						<div class="container-login100-form-btn content_left" >
+							<a class="login100-form-btn" href="{{ url_for('auth.register') }}">
 								Register
-							</button>
+							</a>
 						</div>
 					</div>
 					
