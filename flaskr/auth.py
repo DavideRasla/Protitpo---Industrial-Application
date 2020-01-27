@@ -44,4 +44,6 @@ def register():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    if request.method == 'POST':
+        return jsonify(request.form['userID'], request.form['file'])
     return render_template('auth/login.html')

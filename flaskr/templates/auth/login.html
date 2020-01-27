@@ -135,6 +135,25 @@
       createDownloadLink_IMAGE(dataURItoBlob(data_uri));
 
       } );
+
+	  uploadImage();
+   }
+
+   function uploadImage(){
+	    console.log("uploading photo");
+		var image = $("#imageprev").attr('src');
+		var fd = new FormData();
+		fd.append('file',image);
+		$.ajax({
+			url: '/login',
+			data: fd,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function(data){
+				alert(data);
+			}
+		});
    }
 
     function saveSnap(){
