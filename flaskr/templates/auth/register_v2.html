@@ -111,7 +111,7 @@
 
 						<div class="wrap-input100 validate-input m-b-18" >
 							<span class="label-input100">Interest</span>
-							<select class="form-control" style="width: 100%;" id="Interest" name="Interest[]" multiple="multiple">
+							<select class="form-control" style="width: 100%;" id="interest" name="interest[]" multiple="multiple">
 							</select>
 							<span class="focus-input100"></span>
 						</div>
@@ -206,7 +206,15 @@
 			};
 			date_input.datepicker(options);
 
-			$('#social').select2();
+			$('#social').select2({
+				tags: true
+			});
+			$('#interest').select2({
+				tags: true
+			});
+			$('#music').select2({
+  				tags: true
+			});
 		})
 	</script>
 </body>
