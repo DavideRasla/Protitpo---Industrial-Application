@@ -59,75 +59,87 @@
 						</div>
 						<div class="stepwizard-step">
 							<a id="step-5" href="#step-5" type="button" class="btn btn-default btn-circle btn-white" disabled="disabled">5</a>
+							<p>Step 5</p>
+						</div>
+						<div class="stepwizard-step">
+							<a id="step-6" href="#step-6" type="button" class="btn btn-default btn-circle btn-white" disabled="disabled">6</a>
 							<p>End</p>
 						</div>
 					</div>
 				</div>
 				<form class="login100-form form_padding" id="form">
 					
-					<div id="step1">
-						<div class="wrap-input100 validate-input m-b-26" >
-							<span class="label-input100">Name</span>
-							<input class="input100" type="text" name="username" placeholder="Name">
-							<span class="focus-input100"></span>
+					<div id="step1" class="step-flex">
+						<div class="step-wrapper">
+
+							<div class="wrap-input100 validate-input m-b-26" >
+								<span class="label-input100">Name</span>
+								<input class="input100" type="text" name="username" placeholder="Name">
+								<span class="focus-input100"></span>
+							</div>
+
+							<div class="wrap-input100 validate-input m-b-18" >
+								<span class="label-input100">Last name</span>
+								<input class="input100" type="password" name="lastname" placeholder="Last name">
+								<span class="focus-input100"></span>
+							</div>
+
+							<div class="wrap-input100 validate-input m-b-18" >
+								<span class="label-input100">Email</span>
+								<input class="input100" type="password" name="email" placeholder="Email">
+								<span class="focus-input100"></span>
+							</div>
 						</div>
 
-						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">Last name</span>
-							<input class="input100" type="password" name="lastname" placeholder="Last name">
-							<span class="focus-input100"></span>
-						</div>
+					</div>
+					<div id="step2" class="step-flex" style="display: none;">
+						<div class="step-wrapper">
+							<div class="wrap-input100 validate-input m-b-26" >
+								<span class="label-input100">Birthday</span>
+								<input class="input100" type="text" name="birthday" placeholder="Birthday">
+								<span class="focus-input100"></span>
+							</div>
 
-						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">Email</span>
-							<input class="input100" type="password" name="email" placeholder="Email">
-							<span class="focus-input100"></span>
+							<div class="wrap-input100 validate-input m-b-18" >
+								<span class="label-input100">Address</span>
+								<input class="input100" type="password" name="addr" placeholder="Address">
+								<span class="focus-input100"></span>
+							</div>
+
+							<div class="wrap-input100 validate-input m-b-18 form-check form-check-inline" style="padding-left: 20px;">
+								<span class="label-input100">Sex</span>
+								<input type="radio" class="form-check-input" name="sx" value="M" id="sxm">
+								<label class="form-check-label" for="sxm">M</label>
+								<input type="radio" class="form-check-input" name="sx" value="F" id="sxf">
+								<label class="form-check-label" for="sxf">F</label>
+								<span class="focus-input100"></span>
+							</div>
 						</div>
 					</div>
-					<div id="step2" style="display: none;">
-						<div class="wrap-input100 validate-input m-b-26" >
-							<span class="label-input100">Birthday</span>
-							<input class="input100" type="text" name="birthday" placeholder="Birthday">
-							<span class="focus-input100"></span>
-						</div>
+					<div id="step3" class="step-flex" style="display: none;">
+						<div class="step-wrapper">
+							<div class="wrap-input100 validate-input m-b-26" >
+								<span class="label-input100">Social</span>
+								<select class="form-control" style="width: 100%;" id="social" name="social[]" multiple="multiple">
+									<option value="fb">Facebook</option>
+									<option value="tw">Twitter</option>
+									<option value="inst">Instagram</option>
+								</select>
+							</div>
 
-						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">Address</span>
-							<input class="input100" type="password" name="addr" placeholder="Address">
-							<span class="focus-input100"></span>
-						</div>
+							<div class="wrap-input100 validate-input m-b-18" >
+								<span class="label-input100">Interest</span>
+								<select class="form-control" style="width: 100%;" id="interest" name="interest[]" multiple="multiple">
+								</select>
+								<span class="focus-input100"></span>
+							</div>
 
-						<div class="wrap-input100 validate-input m-b-18 form-check form-check-inline" style="padding-left: 20px;">
-							<span class="label-input100">Sex</span>
-							<input type="radio" class="form-check-input" name="sx" value="M" id="sxm">
-							<label class="form-check-label" for="sxm">M</label>
-							<input type="radio" class="form-check-input" name="sx" value="F" id="sxf">
-							<label class="form-check-label" for="sxf">F</label>
-							<span class="focus-input100"></span>
-						</div>
-					</div>
-					<div id="step3" style="display: none;">
-						<div class="wrap-input100 validate-input m-b-26" >
-							<span class="label-input100">Social</span>
-							<select class="form-control" style="width: 100%;" id="social" name="social[]" multiple="multiple">
-								<option value="fb">Facebook</option>
-								<option value="tw">Twitter</option>
-								<option value="inst">Instagram</option>
-							</select>
-						</div>
-
-						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">Interest</span>
-							<select class="form-control" style="width: 100%;" id="interest" name="interest[]" multiple="multiple">
-							</select>
-							<span class="focus-input100"></span>
-						</div>
-
-						<div class="wrap-input100 validate-input m-b-18" >
-							<span class="label-input100">Music</span>
-							<select class="form-control" style="width: 100%;" id="music" name="music[]" multiple="multiple">
-							</select>
-							<span class="focus-input100"></span>
+							<div class="wrap-input100 validate-input m-b-18" >
+								<span class="label-input100">Music</span>
+								<select class="form-control" style="width: 100%;" id="music" name="music[]" multiple="multiple">
+								</select>
+								<span class="focus-input100"></span>
+							</div>
 						</div>
 					</div>
 
@@ -146,10 +158,57 @@
 						</div>
 					</div> -->
 					<div id="step4" style="display: none;">
-						<div id="my_camera"></div>
+						<div style="display: flex; flex-direction: column;justify-content: space-between; height: 100%;">
+							<div style="display: flex;align-items: center; justify-content: space-evenly;">
+								<div id="my_camera" class="camera_login"></div>
+								<div style="display: flex;   flex-direction: column; align-items: center ;justify-content: space-evenly; width: 180; height: 180px;">
+									<button  type="button" class="btn-custom btn-blue" onclick="take_snapshot()" style="margin-left: 15px;align-self: center;">
+										Take a snap!
+									</button>
+								</div>  
+							</div>
+							<div style="display: flex;align-items: center; justify-content: space-between;">
+								<div id="snap-1" class="camera_login image_snap"></div>
+								<div id="snap-2" class="camera_login image_snap"></div>
+								<div id="snap-3" class="camera_login image_snap"></div>
+							</div>
+						</div>
+						
+					</div>
+					<div id="step5" style="display: none;">
+						<div id="voiceinsruction" style="height: 100%;">
+							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
+								<p style="text-align: center;">
+									<b>Voice acquisition procedure:</b></br>
+									By pressing the start button a text will be desplayd and the recording will start!
+									Read the text loudly, the recording will automatically stop after 30 seconds.
+								</p>
+								<button  type="button" class="btn-custom btn-blue" onclick="start_rec()">
+									Start!
+								</button>
+							</div>  
+						</div>
+						<div id="textrec" style="height: 100%;display: none;">
+							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
+								<p style="text-align: center;">
+									La torre di Pisa (popolarmente torre pendente e, a Pisa, la Torre) è il campanile della cattedrale di Santa Maria Assunta, nella celeberrima piazza del Duomo di cui è il monumento più famoso per via della caratteristica pendenza, simbolo di Pisa e fra i simboli iconici d'Italia. Si tratta di un campanile a sé stante alto 57 metri (58,36 metri considerando il piano di fondazione)[1] costruito nell'arco di due secoli, tra il dodicesimo e il quattordicesimo secolo. Con una massa di 14.453 tonnellate,[1][2] vi predomina la linea curva, con giri di arcate cieche e sei piani di loggette. La pendenza è dovuta a un cedimento del terreno sottostante verificatosi già nelle prime fasi della costruzione.
+
+L'inclinazione dell'edificio misura 3,9° rispetto all'asse verticale. La torre è gestita dall'Opera della Primaziale Pisana,[4] ente che gestisce tutti i monumenti della piazza del Duomo di Pisa. È stata proposta come una delle sette meraviglie del mondo moderno. 
+I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le costruzioni adiacenti al mare in genere, le fondamenta vennero lasciate a riposare per un anno intero. Alcuni studi attribuiscono la paternità del progetto all'architetto pisano Diotisalvi, che nello stesso periodo stava costruendo il battistero. 
+								</p>
+							</div>  
+						</div>
+						<div id="recend" style="height: 100%;display: none;">
+							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
+								<div id="audio_sample"></div>
+								<button  type="button" class="btn-custom btn-blue" onclick="start_rec()">
+									Retry!
+								</button>
+							</div>  
+						</div>
 					</div>
 				</form>
-				<div id="step5" style="display: none;" class="formend">
+				<div id="step6" style="display: none;" class="formend">
 					<button id="complete" type="button" class="btn-custom btn-blue ">Complete Registration</button>
 				</div>
 				<div class="container-login100-form-btn " style="display: flex; padding:5px;justify-content: flex-end;">
@@ -184,7 +243,11 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 	<script>
-		var step = 5;
+
+		var snap = 3
+		var actual_snap = 0;
+
+		var step = 6;
 		var actual_step = 1;
 		function nextStep(){
 			if(step == actual_step)
@@ -234,8 +297,8 @@
 			}
 		}
 		Webcam.set({
-			width: 300,
-			height: 300,
+			width: 180,
+			height: 180,
 			image_format: 'jpeg',
 			jpeg_quality: 90
 		});
@@ -262,6 +325,24 @@
   				tags: true
 			});
 		})
+
+		function take_snapshot() {
+            // take snapshot and get image data
+			actual_snap +=1;
+			if(actual_snap > snap)
+				actual_snap =1;
+            Webcam.snap( function(data_uri) {
+            // display results in page
+                document.getElementById('snap-'+actual_snap).innerHTML = '<img id="imageprev" style = "position: relative; height: 200px; width: 200px;" src="'+data_uri+'"/>';
+            } );
+			$("#snap-"+actual_snap).toggleClass("blue-bg");
+    
+        }
+
+		function start_rec(){
+			$('#voiceinsruction').toggle();
+			$('#textrec').toggle();
+		}
 	</script>
 </body>
 </html>

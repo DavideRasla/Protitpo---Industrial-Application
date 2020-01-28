@@ -31,32 +31,17 @@
 			<div class="wrap-login100">
 				<div class="login100-form-title title_padding" >
 					<span class="login100-form-title-1">
-						Face authentication
+						Voice authentication
 					</span>
                 </div>
                 <div id="live">
                     <div  style=" min-height:490px;display: flex;align-items: center; justify-content: space-evenly; padding: 20px 40px 0px 40px;">
-                        <div id="my_camera" class="camera_login">
-                        </div>
-                        <div style="display: flex; align-items: center;justify-content: center; width: 200px; height: 200px;">
-                            <button  type="button" class="btn-custom btn-blue" onclick="take_snapshot()" style="align-self: center;">
-                                Take a snap!
-                            </button>
-                        </div>  
+                        
                     </div>
                 </div>
                 <div id="preview" style="display: none;">
                     <div style="min-height:490px;display: flex;align-items: center; justify-content: space-evenly; padding: 20px 40px 0px 40px;">
-                        <div id="image_container" class="camera_login image_cont">
-                        </div>
-                        <div style="display: flex;   flex-direction: column; align-items: center ;justify-content: space-evenly; width: 200px; height: 200px;">
-                            <button  type="button" class="btn-custom btn-blue" onclick="take_snapshot()" style="align-self: center;">
-                                Retry!
-                            </button>
-                            <button id="lgbtn" type="button" class="login100-form-btn float-right" onclick="login();">
-                                Login
-                            </button>
-                        </div>  
+                        
                     </div>
                 </div>
 			</div>
@@ -76,28 +61,10 @@
 	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
 <!--===============================================================================================-->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-<!--===============================================================================================-->
-    <script src="{{ url_for('static', filename='js/webcam.js') }}"></script>
-
-
-    
     <script>
 
-        Webcam.set({
-			width: 300,
-			height: 300,
-			image_format: 'jpeg',
-			jpeg_quality: 90
-		});
-       	Webcam.attach( '#my_camera' ); 
-
+       
         function take_snapshot() {
-            // take snapshot and get image data
-            Webcam.snap( function(data_uri) {
-            // display results in page
-                document.getElementById('image_container').innerHTML = '<img id="imageprev" style = "position: relative; height: 200px; width: 200px;" src="'+data_uri+'"/>';
-            
-            } );
             $("#live").toggle();
             $("#preview").toggle();
         }
@@ -107,22 +74,9 @@
             $("#preview").toggle();
         }
 
-        function uploadImage(){
-            console.log("uploading photo");
-            var image = $("#image_container").attr('src');
-            var fd = new FormData();
-            fd.append('file',image);
-            $.ajax({
-                url: '/login',
-                data: fd,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                success: function(data){
-                    alert(data);
-                }
-            });
-    }
+        function uploadAudio(){
+         
+        }
 
         function login(){
 

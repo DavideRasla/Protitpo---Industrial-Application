@@ -42,8 +42,14 @@ def register():
 
     return render_template('auth/register_v2.html')
 
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
+@bp.route('/login_face', methods=('GET', 'POST'))
+def login_face():
     if request.method == 'POST':
         return jsonify(request.form['userID'], request.form['file'])
     return render_template('auth/login_face_revised.html')
+
+@bp.route('/login_voice', methods=('GET', 'POST'))
+def login_voice():
+    if request.method == 'POST':
+        return jsonify(request.form['userID'], request.form['file'])
+    return render_template('auth/login_voice_revised.html')

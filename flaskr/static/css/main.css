@@ -2,6 +2,23 @@
   color: transparent;
 } */
 
+.step-flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.step-wrapper{
+  width: 350px;
+  padding-left: 70px;
+}
+
+.blue-bg{
+  background-color: blue !important;
+}
+
 .login100-form-btn:disabled,
 .login100-form-btn[disabled]{
   border: 1px solid #4c5454;
@@ -20,6 +37,11 @@
 .image_cont{
   height: 300px;
   width: 300px;
+}
+
+.image_snap{
+  height: 100px;
+  width: 100px;
 }
 
 .camera_login{
@@ -191,7 +213,7 @@ body{
 }
 
 .form_padding{
-  padding: 43px 88px 35px 190px;
+  padding: 40px 140px 40px 140px;
 
 }
 
