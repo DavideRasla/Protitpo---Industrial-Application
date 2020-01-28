@@ -38,37 +38,25 @@
             .card-text{
                 text-align: center;
             }
-            #my_camera{
-                position: absolute;
-                top:10%;
-                margin-left: 30%; 
-                width: 640px; 
-                height: 480px;
-                border: 1px solid black;
-           }
+
             #login_box{
                 position: absolute;
                 left: 35%;
                 top: 10%;
                 width: 640px;
                 height: 480px;
-            }
-            #results{
-                border: 2px solid black;
-                position: absolute;
-                right: 10px;
-                top: 10px;
-                padding: 20px; 
-                width: 400px;
-                height:100%;
-            }
+		    }
+
+			#controls{
+				position: relative;
+				left:20%;
+			}
         </style>
         <title>Snow - login</title>
   <!-- ############################################################################# CSS ################################################################ -->
-    </head>
-    <div id="my_camera">
-    </div>
-    <div id="results" >
+	</head>
+
+<div id="results" >
         <div id = "User_Snapshot" style="position: relative; left: 50px; width: 100px; height: 100px;">
         </div>
     <input type=button value="Take Snapshot" style="position: relative; left: 100px; top: 130px;" onClick="take_snapshot()">
@@ -83,7 +71,7 @@
    
         </div>
 
-    </div>
+
    <!-- inserting these scripts at the end to be able to use all the elements in the DOM --> 
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
     <script src="js/app.js"></script>
@@ -120,35 +108,9 @@ var usercount = 0;
   return blob;
 
 } 
-    Webcam.set({
-        width: 640,
-        height: 480,
-        image_format: 'jpeg',
-        jpeg_quality: 90
-       });
-       Webcam.attach( '#my_camera' ); 
-    function take_snapshot() {
-     
-     // take snapshot and get image data
-     Webcam.snap( function(data_uri) {
-      // display results in page
-      document.getElementById('User_Snapshot').innerHTML = 
-   '<img id="imageprev" style = "position: relative; height: 200px; width: 250px;" src="'+data_uri+'"/>';
-      createDownloadLink_IMAGE(dataURItoBlob(data_uri));
 
-      } );
-   }
-
-    function saveSnap(){
-        // Get base64 value from <img id='imageprev'> source
-        var base64image = document.getElementById("imageprev").src;
-
-        Webcam.upload( base64image, 'upload.php', function(code, text) {
-        console.log('Save successfully');
-        //console.log(text);
-        });   } 
-
-        URL = window.URL || window.webkitURL;
+    
+URL = window.URL || window.webkitURL;
 
 var gumStream; 						//stream from getUserMedia()
 var rec; 							//Recorder.js object
@@ -181,10 +143,6 @@ function startRecording() {
     	Disable the record button until we get a success or fail from getUserMedia() 
 	*/
 
-	recordButton.disabled = true;
-	stopButton.disabled = false;
-	pauseButton.disabled = false
-
 	/*
     	We're using the standard promise based getUserMedia() 
     	https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
@@ -198,7 +156,7 @@ function startRecording() {
 			sampleRate might change after getUserMedia is called, like it does on macOS when recording through AirPods
 			the sampleRate defaults to the one set in your OS for your playback device
 		*/
-		audioContext = new AudioContext();
+		audioContext = new AudioContext({sampleRate:16000,});
 
 		//update the format 
 		document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
@@ -222,9 +180,7 @@ function startRecording() {
 
 	}).catch(function(err) {
 	  	//enable the record button if getUserMedia() fails
-    	recordButton.disabled = false;
-    	stopButton.disabled = true;
-    	pauseButton.disabled = true
+
 	});
 }
 
@@ -365,5 +321,10 @@ function createDownloadLink(blob) {
 	//add the li element to the ol
 	recordingsList.appendChild(li);
 }
-    </script>
+
+
+
+
+	
+	</script>
 </html>

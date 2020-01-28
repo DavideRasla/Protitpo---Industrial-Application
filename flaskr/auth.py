@@ -42,6 +42,34 @@ def register():
 
     return render_template('auth/register_v2.html')
 
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
-    return render_template('auth/login.html')
+@bp.route('/login_face', methods=('GET', 'POST'))
+def login_face():
+    return render_template('auth/Login_Face.html')
+
+@bp.route('/login_voice', methods=('GET', 'POST'))
+def login_voice():
+    return render_template('auth/Login_Voice.html')
+
+
+#### Testing ####
+
+@bp.route('/hello', methods=['GET', 'POST'])
+def hello():
+
+    # POST request
+    if request.method == 'POST':
+        print('Incoming..')
+        print(request.get_json())  # parse as JSON
+        return 'OK', 200
+
+    # GET request
+    else:
+        message = {'greeting':'Hello from Flask!'}
+        return jsonify(message)  # serialize and use JSON headers
+
+
+
+@bp.route('/test')
+def test_page():
+    # look inside `templates` and serve `index.html`
+    return render_template('index.html')
