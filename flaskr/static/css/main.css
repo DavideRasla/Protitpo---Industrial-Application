@@ -1,6 +1,31 @@
 /* input[type="password"] {
   color: transparent;
 } */
+
+.login100-form-btn:disabled,
+.login100-form-btn[disabled]{
+  border: 1px solid #4c5454;
+  background-color: #4c5454;
+  color: white;
+}
+
+.login100-form-btn:disabled:hover,
+.login100-form-btn[disabled]:hover{
+  border: 1px solid #4c5454;
+  background-color: #4c5454;
+  color: white;
+  cursor: default;
+}
+
+.image_cont{
+  height: 300px;
+  width: 300px;
+}
+
+.camera_login{
+  background-color: #4c5454;
+}
+
 .card-wrap{
   overflow: hidden;
   position: relative;

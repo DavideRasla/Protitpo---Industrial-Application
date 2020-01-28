@@ -46,4 +46,4 @@ def register():
 def login():
     if request.method == 'POST':
         return jsonify(request.form['userID'], request.form['file'])
-    return render_template('auth/login.html')
+    return render_template('auth/login_face_revised.html')
