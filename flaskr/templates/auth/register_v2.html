@@ -251,6 +251,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 
 		var snap = 3
 		var actual_snap = 0;
+		var total_snap = 0;
 
 		var step = 6;
 		var actual_step = 1;
@@ -336,6 +337,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 
 		function take_snapshot() {
             // take snapshot and get image data
+			total_snap +=1;
 			actual_snap +=1;
 			if(actual_snap > snap)
 				actual_snap =1;
@@ -402,10 +404,14 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 
 			console.log("registrating new user");
 			var fd = new FormData();
-			for(i=1;i<=snap;i++){
-				var image = $("#imageprev"+i).attr('src');
-				fd.append('file'+i,image);
+			if(total_snap >=3){
+				for(i=1;i<=snap;i++){
+					var image = $("#imageprev"+i).attr('src');
+					fd.append('file'+i,image);
+				}
+				fd.append('img_loaded',1);
 			}
+			fd.append('img_loaded',0);
 			fd.append('op','reg_new_user');
 			fd.append('user_data',JSON.stringify(form_data));
 

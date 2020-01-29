@@ -14,6 +14,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+def get_last_row(db):
+    cur = db.cursor()
+    return cur.lastrowid
+
 def save_image_to_file(img,img_data):
     filename=img
     biteimg = img_data.encode()
@@ -39,20 +44,13 @@ def register():
         return jsonify('ok')
     if request.method == 'POST' and request.form['op'] == 'reg_new_user':
         data = json.loads(request.form['user_data'])
-
-        #uname = data['uname']
-        #ulast = request.form['ulast']
-        #email = request.form['email']
-        #birthday = request.form['birthday']
-        #addr = request.form['addr']
-        #sx = request.form['sx']
         db = get_db()
         error = None
 
         if db.execute(
             'SELECT id FROM user WHERE email = ?', (data['email'],)
         ).fetchone() is not None:
-            error = 'Email {} is already registered.'.format(email)
+            error = 'Email {} is already registered.'.format(data['email'])
 
         if error is None:
             db.execute(
@@ -60,9 +58,27 @@ def register():
                 (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],json.dumps(data['social']),json.dumps(data['interest']),json.dumps(data['music']))
             )
             db.commit()
-            return jsonify('ok')
+            row_id = get_last_row(db)
+        else:
+            return jsonify(error)
+
+        if request.form['img_loaded'] == 1:
+            save_image_to_file("flaskr/RegUser/User1.jpg",request.form['file1'])
+            save_image_to_file("flaskr/RegUser/User2.jpg",request.form['file2'])
+            save_image_to_file("flaskr/RegUser/User3.jpg",request.form['file3'])
+            New_User_Id = Add_Person(data['uname'],row_id)
+            Add_Images_to_single_person(New_User_Id)
+            Train_Person_Group('user_db') 
+            db.execute(
+                'UPDATE user SET face_id=? WHERE id =?',
+                (New_User_Id,row_id)
+            )
+            db.commit()
+
+        return jsonify('ok')
+
             #return redirect(url_for('auth.start'))
-        return jsonify(error)
+        
         #flash(error)
 
 
