@@ -92,7 +92,10 @@ def Get_Person(id):#Dato l'id restituisce l'intero json della persona
 
 def Add_Images_to_single_person(id):#Aggiunge immagini ad una persona, conoscendo l'id
 
-    Users_images= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("RegUser/NewUser")]
+    #Users_images= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("RegUser/NewUser")]
+    Users_images = [file for file in glob.glob('./flaskr/RegUser/*.jpg')]
+
+
     print(Users_images)
     #Request URL 
     FaceApiAddImage= 'https://users.cognitiveservices.azure.com/face/v1.0/persongroups/'+personGroupId+'/persons/'+id+'/persistedFaces' 
@@ -190,7 +193,9 @@ def Train_Person_Group(idGroup):
 def Identify_User():
 
 
-    #Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("LogUser/Test_User")]
+    #Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("LogUser/Test_User")] 
+    #RIGA SOPRA SOLO SE USO DIRETTAMENTE LA FUNZIONE DA TERMINALE.
+
     Test_User_Image = [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
 
 
@@ -240,12 +245,12 @@ def Identify_User():
 
 def Delete_Reg_Photos(): #Delete all the photos used for registration
 
-    Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("RegUser/NewUser")]
-    
+    #Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("RegUser/NewUser")]
+    Test_User_Image = [file for file in glob.glob('./flaskr/RegUser/*.jpg')]
+
     for i in range(len(Test_User_Image)):
         os.remove(Test_User_Image[i])
-    
-    Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("RegUser/NewUser")]
+    Test_User_Image = [file for file in glob.glob('./flaskr/RegUser/*.jpg')]
     if(len(Test_User_Image) == 0):
         return 1
     return 0
@@ -253,12 +258,12 @@ def Delete_Reg_Photos(): #Delete all the photos used for registration
 
 def Delete_Log_Photos(): #Delete all the photos used for logging
 
-    Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("LogUser/Test_User")]
-    
+    #Test_User_Image= [file for file in glob.glob('**/*.jvpg', recursive = True) if file.startswith("LogUser/Test_User")]
+    Test_User_Image = file for file in glob.glob('./flaskr/LogUser/*.jpg')
     for i in range(len(Test_User_Image)):
         os.remove(Test_User_Image[i])
-    
-    Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("LogUser/Test_User")]
+
+    Test_User_Image = [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
     if(len(Test_User_Image) == 0):
         return 1
     return 0
