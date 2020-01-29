@@ -2,6 +2,7 @@ import functools
 import base64
 import io
 from PIL import Image
+from flaskr.face_Def import *
 
 
 from flask import (
@@ -49,12 +50,16 @@ def register():
 @bp.route('/login_face', methods=('GET', 'POST'))
 def login_face():
     if request.method == 'POST':
-        filename='user_login.jpeg'
+        filename='flaskr/LogUser/Test_User.jpg'
         #biteimg = bytes(request.form['file'],encoding="ascii")
         biteimg = request.form['file'].encode()
         imgdata = biteimg[biteimg.find(b'/9'):]
-        im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
-        return jsonify(request.form['userID'], request.form['file'])
+       # im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
+
+        Id_User_Verified = Identify_User()
+       # Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
+        #Id_User_Verified = cwd = os.getcwd()
+        return jsonify(Id_User_Verified)
     return render_template('auth/login_face_revised.html')
 
 @bp.route('/login_voice', methods=('GET', 'POST'))

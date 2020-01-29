@@ -59,8 +59,9 @@ def CreatePersonGroupID():#Crea un nuovo PersonGroupID
 def Add_Person(name, Id_On_My_DB):#Dato nome e id sul database, aggiunge una persona e restituise il suo id
     body = dict()
     body["name"] = name
-    body["userData"] = Id_On_My_DB#UserData è l'id dell'utente nel DB nostro
+    body["userData"] = Id_On_My_DB#UserData  l'id dell'utente nel DB nostro
     body = str(body)
+
 
     #Request URL 
     FaceApiCreatePerson = 'https://users.cognitiveservices.azure.com/face/v1.0/persongroups/'+personGroupId+'/persons' 
@@ -188,12 +189,9 @@ def Train_Person_Group(idGroup):
 
 def Identify_User():
 
-    # Fist phase: Detect the face in the test_Image
 
-
-
-    Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("LogUser/Test_User")]
- 
+    #Test_User_Image= [file for file in glob.glob('**/*.jpg', recursive = True) if file.startswith("LogUser/Test_User")]
+    Test_User_Image = [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
 
 
     # Request URL 
@@ -211,10 +209,9 @@ def Identify_User():
             print("FACE ID: "+str(faceId))
 
         except Exception as e:
-            print(e)
+            print('Error is: ',e)
 
     faceIdsList = [faceId]
-
     #Second Phase: Given the test_face return the related user
 
     body = dict()
@@ -237,6 +234,7 @@ def Identify_User():
             
     except Exception as e:
         print("Could not detect")
+    return str(personId)
 
 
 
@@ -269,7 +267,7 @@ def Delete_Log_Photos(): #Delete all the photos used for logging
 
 
 #CreatePersonGroupID()
-#New_Id =  Add_Person('Andrea', '002')
+#New_Id =  Add_Person('VerificaVera', '002')
 
 #Person = Get_Person('758aa814-8558-4f3d-a7de-5d5039c4be73') #Restituisce l'oggetto person
 
