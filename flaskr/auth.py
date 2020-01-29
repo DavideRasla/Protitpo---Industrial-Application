@@ -1,6 +1,7 @@
 import functools
 import base64
 import io
+import json
 from PIL import Image
 from flaskr.face_Def import *
 
@@ -36,25 +37,32 @@ def register():
         Add_Images_to_single_person(New_User_Id)
         Train_Person_Group('user_db')
         return jsonify('ok')
-        #uname = request.form['uname']
+    if request.method == 'POST' and request.form['op'] == 'reg_new_user':
+        data = json.loads(request.form['user_data'])
+
+        #uname = data['uname']
         #ulast = request.form['ulast']
         #email = request.form['email']
-        #db = get_db()
-        #error = None
-#
-        #if db.execute(
-        #    'SELECT id FROM user WHERE email = ?', (email,)
-        #).fetchone() is not None:
-        #    error = 'Email {} is already registered.'.format(email)
-#
-        #if error is None:
-        #    db.execute(
-        #        'INSERT INTO user (uname, ulast, email) VALUES (?, ?, ?)',
-        #        (uname, ulast, email)
-        #    )
-        #    db.commit()
-        #    return redirect(url_for('auth.start'))
-#
+        #birthday = request.form['birthday']
+        #addr = request.form['addr']
+        #sx = request.form['sx']
+        db = get_db()
+        error = None
+
+        if db.execute(
+            'SELECT id FROM user WHERE email = ?', (data['email'],)
+        ).fetchone() is not None:
+            error = 'Email {} is already registered.'.format(email)
+
+        if error is None:
+            db.execute(
+                'INSERT INTO user (uname, ulast, email, birthday, addr, social, interest, music) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],json.dumps(data['social']),json.dumps(data['interest']),json.dumps(data['music']))
+            )
+            db.commit()
+            return jsonify('ok')
+            #return redirect(url_for('auth.start'))
+        return jsonify(error)
         #flash(error)
 
 

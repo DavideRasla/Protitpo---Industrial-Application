@@ -5,7 +5,14 @@ CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   uname TEXT NOT NULL,
   ulast TEXT NOT NULL,
-  email TEXT NOT NULL
+  email TEXT NOT NULL,
+  birthday TEXT NOT NULL,
+  addr TEXT NOT NULL,
+  social TEXT NOT NULL,
+  interest TEXT NOT NULL,
+  music TEXT NOT NULL,
+  voice_id,
+  face_id
 );
 
 /*CREATE TABLE post (

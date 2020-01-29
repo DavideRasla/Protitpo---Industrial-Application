@@ -74,19 +74,19 @@
 
 							<div class="wrap-input100 validate-input m-b-26" >
 								<span class="label-input100">Name</span>
-								<input class="input100" type="text" name="username" placeholder="Name">
+								<input id="uname" class="input100" type="text" name="uname" placeholder="Name">
 								<span class="focus-input100"></span>
 							</div>
 
 							<div class="wrap-input100 validate-input m-b-18" >
 								<span class="label-input100">Last name</span>
-								<input class="input100" type="password" name="lastname" placeholder="Last name">
+								<input  id="ulast" class="input100" type="text" name="ulast" placeholder="Last name">
 								<span class="focus-input100"></span>
 							</div>
 
 							<div class="wrap-input100 validate-input m-b-18" >
 								<span class="label-input100">Email</span>
-								<input class="input100" type="password" name="email" placeholder="Email">
+								<input id="email" class="input100" type="text" name="email" placeholder="Email">
 								<span class="focus-input100"></span>
 							</div>
 						</div>
@@ -96,13 +96,13 @@
 						<div class="step-wrapper">
 							<div class="wrap-input100 validate-input m-b-26" >
 								<span class="label-input100">Birthday</span>
-								<input class="input100" type="text" name="birthday" placeholder="Birthday">
+								<input id="birthday" class="input100" type="text" name="birthday" placeholder="Birthday">
 								<span class="focus-input100"></span>
 							</div>
 
 							<div class="wrap-input100 validate-input m-b-18" >
 								<span class="label-input100">Address</span>
-								<input class="input100" type="password" name="addr" placeholder="Address">
+								<input id="addr" class="input100" type="text" name="addr" placeholder="Address">
 								<span class="focus-input100"></span>
 							</div>
 
@@ -120,7 +120,7 @@
 						<div class="step-wrapper">
 							<div class="wrap-input100 validate-input m-b-26" >
 								<span class="label-input100">Social</span>
-								<select class="form-control" style="width: 100%;" id="social" name="social[]" multiple="multiple">
+								<select id="social" class="form-control" style="width: 100%;" name="social[]" >
 									<option value="fb">Facebook</option>
 									<option value="tw">Twitter</option>
 									<option value="inst">Instagram</option>
@@ -129,14 +129,14 @@
 
 							<div class="wrap-input100 validate-input m-b-18" >
 								<span class="label-input100">Interest</span>
-								<select class="form-control" style="width: 100%;" id="interest" name="interest[]" multiple="multiple">
+								<select class="form-control" style="width: 100%;" id="interest" name="interest[]">
 								</select>
 								<span class="focus-input100"></span>
 							</div>
 
 							<div class="wrap-input100 validate-input m-b-18" >
 								<span class="label-input100">Music</span>
-								<select class="form-control" style="width: 100%;" id="music" name="music[]" multiple="multiple">
+								<select class="form-control" style="width: 100%;" id="music" name="music[]" >
 								</select>
 								<span class="focus-input100"></span>
 							</div>
@@ -214,7 +214,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 					</div>
 				</form>
 				<div id="step6" style="display: none;" class="formend">
-					<button id="complete" type="button" class="btn-custom btn-blue ">Complete Registration</button>
+					<button id="complete" type="button" class="btn-custom btn-blue " onclick="complete_reg()">Complete Registration</button>
 				</div>
 				<div class="container-login100-form-btn " style="display: flex; padding:5px;justify-content: flex-end;">
 					<button id="bkbtn" type="button" class="login100-form-btn float-left" onclick="preStep();" style="display: none; margin-right: auto;">
@@ -321,13 +321,16 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 			date_input.datepicker(options);
 
 			$('#social').select2({
-				tags: true
+				tags: true,
+				multiple: true
 			});
 			$('#interest').select2({
-				tags: true
+				tags: true,
+				multiple: true
 			});
 			$('#music').select2({
-  				tags: true
+  				tags: true,
+				multiple: true
 			});
 		})
 
@@ -368,6 +371,52 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
                 type: 'POST',
                 success: function(data){
                     alert(data);
+                }
+            });
+		}
+
+		function getFormData($form){
+			var unindexed_array = $form.serializeArray();
+			var indexed_array = {};
+			$.map(unindexed_array, function(n, i){
+				if(n['name'].includes('[]'))
+					n['name']=n['name'].replace("[]","");
+				if(indexed_array[n['name']]){
+					if(!indexed_array[n['name']].push){
+						indexed_array[n['name']] = [indexed_array[n['name']]];
+					}
+					indexed_array[n['name']].push(n['value']||'');
+				}
+				else{
+					indexed_array[n['name']] = n['value']||'';
+				}
+			});
+
+			return indexed_array;
+		}
+
+		function complete_reg(){
+			var form_data = getFormData($('#form'));
+			console.log(form_data);
+
+
+			console.log("registrating new user");
+			var fd = new FormData();
+			for(i=1;i<=snap;i++){
+				var image = $("#imageprev"+i).attr('src');
+				fd.append('file'+i,image);
+			}
+			fd.append('op','reg_new_user');
+			fd.append('user_data',JSON.stringify(form_data));
+
+            $.ajax({
+                url: '/auth/register',
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function(data){
+                    console.log(data)
                 }
             });
 		}
