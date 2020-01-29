@@ -259,7 +259,7 @@ def Delete_Reg_Photos(): #Delete all the photos used for registration
 def Delete_Log_Photos(): #Delete all the photos used for logging
 
     #Test_User_Image= [file for file in glob.glob('**/*.jvpg', recursive = True) if file.startswith("LogUser/Test_User")]
-    Test_User_Image = file for file in glob.glob('./flaskr/LogUser/*.jpg')
+    Test_User_Image = [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
     for i in range(len(Test_User_Image)):
         os.remove(Test_User_Image[i])
 
