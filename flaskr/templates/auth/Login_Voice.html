@@ -57,11 +57,7 @@
 	</head>
 
 <div id="results" >
-        <div id = "User_Snapshot" style="position: relative; left: 50px; width: 100px; height: 100px;">
-        </div>
-    <input type=button value="Take Snapshot" style="position: relative; left: 100px; top: 130px;" onClick="take_snapshot()">
-   <!-- <input type=button value="Save Snapshot" style="position: relative; left:10px; top: 130px;" onClick="saveSnap()">-->
-    
+
     <div id="controls" style="position: relative;top: 20%">
     <div id="formats">Click on Record and say "My name is" </div>
             <button id="recordButton">Record</button>
@@ -70,7 +66,7 @@
   <ol id="recordingsList"></ol>
    
         </div>
-
+</div>
 
    <!-- inserting these scripts at the end to be able to use all the elements in the DOM --> 
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
@@ -156,7 +152,7 @@ function startRecording() {
 			sampleRate might change after getUserMedia is called, like it does on macOS when recording through AirPods
 			the sampleRate defaults to the one set in your OS for your playback device
 		*/
-		audioContext = new AudioContext({sampleRate:16000,});
+		audioContext = new AudioContext(/*{sampleRate:16000,} DOESN'T WORK ON FIREFOX OR CHROME*/);
 
 		//update the format 
 		document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
