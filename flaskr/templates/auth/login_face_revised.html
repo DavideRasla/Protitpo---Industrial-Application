@@ -95,7 +95,7 @@
             // take snapshot and get image data
             Webcam.snap( function(data_uri) {
             // display results in page
-                document.getElementById('image_container').innerHTML = '<img id="imageprev" style = "position: relative; height: 200px; width: 200px;" src="'+data_uri+'"/>';
+                document.getElementById('image_container').innerHTML = '<img id="imageprev" style = "position: relative; height: 300px; width: 300px;" src="'+data_uri+'"/>';
             
             } );
             $("#live").toggle();
@@ -109,11 +109,12 @@
 
         function uploadImage(){
             console.log("uploading photo");
-            var image = $("#image_container").attr('src');
+            var image = $("#imageprev").attr('src');
             var fd = new FormData();
             fd.append('file',image);
+            fd.append('userID','popping');
             $.ajax({
-                url: '/login',
+                url: '/auth/login_face',
                 data: fd,
                 processData: false,
                 contentType: false,
@@ -125,6 +126,7 @@
     }
 
         function login(){
+            uploadImage();
 
         }
 

@@ -1,7 +1,11 @@
 import functools
+import base64
+import io
+from PIL import Image
+
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -45,6 +49,11 @@ def register():
 @bp.route('/login_face', methods=('GET', 'POST'))
 def login_face():
     if request.method == 'POST':
+        filename='user_login.jpeg'
+        #biteimg = bytes(request.form['file'],encoding="ascii")
+        biteimg = request.form['file'].encode()
+        imgdata = biteimg[biteimg.find(b'/9'):]
+        im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
         return jsonify(request.form['userID'], request.form['file'])
     return render_template('auth/login_face_revised.html')
 
