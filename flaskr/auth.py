@@ -34,7 +34,7 @@ def register():
         save_image_to_file("flaskr/RegUser/User3.jpg",request.form['file3'])
         New_User_Id = Add_Person("Andrea","01")
         Add_Images_to_single_person(New_User_Id)
-        Train_Person_Group('user_db')
+        Train_Person_Group('users_db')
         return jsonify('ok')
         #uname = request.form['uname']
         #ulast = request.form['ulast']
@@ -67,7 +67,7 @@ def login_face():
         #biteimg = bytes(request.form['file'],encoding="ascii")
         biteimg = request.form['file'].encode()
         imgdata = biteimg[biteimg.find(b'/9'):]
-       # im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
+        im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
 
         Id_User_Verified = Identify_User()
        # Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
