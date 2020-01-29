@@ -58,7 +58,7 @@ def login_face():
 
         Id_User_Verified = Identify_User()
        # Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
-        #Id_User_Verified = cwd = os.getcwd()
+        #Id_User_Verified = cwd = os.getcwd() 
         return jsonify(Id_User_Verified)
     return render_template('auth/login_face_revised.html')
 
