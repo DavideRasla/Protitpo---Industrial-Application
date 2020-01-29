@@ -165,6 +165,11 @@
 									<button  type="button" class="btn-custom btn-blue" onclick="take_snapshot()" style="margin-left: 15px;align-self: center;">
 										Take a snap!
 									</button>
+									<div id="btn_wrap" style="display: none;">
+										<button  type="button" class="btn-custom btn-blue" onclick="uploadimg()" style="margin-left: 15px;align-self: center;">
+											upload!
+										</button>
+									</div>
 								</div>  
 							</div>
 							<div style="display: flex;align-items: center; justify-content: space-between;">
@@ -333,15 +338,38 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 				actual_snap =1;
             Webcam.snap( function(data_uri) {
             // display results in page
-                document.getElementById('snap-'+actual_snap).innerHTML = '<img id="imageprev" style = "position: relative; height: 200px; width: 200px;" src="'+data_uri+'"/>';
+                document.getElementById('snap-'+actual_snap).innerHTML = '<img id="imageprev'+actual_snap+'" style = "position: relative; height: 100px; width: 100px;" src="'+data_uri+'"/>';
             } );
 			$("#snap-"+actual_snap).toggleClass("blue-bg");
+			if(actual_snap == snap)
+				$('#btn_wrap').show();
     
         }
 
 		function start_rec(){
 			$('#voiceinsruction').toggle();
 			$('#textrec').toggle();
+		}
+
+		function uploadimg(){
+			console.log("uploading photo");
+			var fd = new FormData();
+			for(i=1;i<=snap;i++){
+				var image = $("#imageprev"+i).attr('src');
+				fd.append('file'+i,image);
+			}
+			fd.append('op','saveimg');
+
+            $.ajax({
+                url: '/auth/register',
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function(data){
+                    alert(data);
+                }
+            });
 		}
 	</script>
 </body>
