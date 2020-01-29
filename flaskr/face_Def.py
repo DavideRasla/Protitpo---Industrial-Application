@@ -284,5 +284,5 @@ def Delete_Log_Photos(): #Delete all the photos used for logging
 #print(List_All_Users_Inside_A_PersonGroup('users_db'))
 #print(List_All_Person_Groups())
 #Train_Person_Group('users_db')
-Identify_User()
+#Identify_User()
 #print(Delete_Reg_Photos())

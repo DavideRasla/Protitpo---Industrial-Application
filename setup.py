@@ -9,6 +9,7 @@ setup(
     install_requires=[
         'flask',
         'azure-cognitiveservices-vision-face',
-        'image'
+        'image',
+        'requests'
     ],
 )
