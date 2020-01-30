@@ -94,7 +94,7 @@ def login_face():
        # im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
 
         Id_User_Verified = Identify_User()
-       # Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
+        #Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
         #Id_User_Verified = cwd = os.getcwd()
         return jsonify(Id_User_Verified)
     return render_template('auth/login_face_revised.html')
@@ -104,3 +104,8 @@ def login_voice():
     if request.method == 'POST':
         return jsonify(request.form['userID'], request.form['file'])
     return render_template('auth/login_voice_revised.html')
+
+@bp.route('/profile', methods=('GET', 'POST'))
+def user_profile():
+    return render_template('auth/user_profile.html')
+    
