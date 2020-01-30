@@ -54,8 +54,8 @@ def register():
 
         if error is None:
             db.execute(
-                'INSERT INTO user (uname, ulast, email, birthday, addr, social, interest, music) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],json.dumps(data['social']),json.dumps(data['interest']),json.dumps(data['music']))
+                'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],data['premium'],data['profession'],json.dumps(data['social']),json.dumps(data['interest']),json.dumps(data['music']))
             )
             db.commit()
             row_id = get_last_row(db)
@@ -107,5 +107,28 @@ def login_voice():
 
 @bp.route('/profile', methods=('GET', 'POST'))
 def user_profile():
+    #g.users = loadProfiles()
+    g.users = [{
+            'uname':'John','ulast':'Smith',
+            'sx':'M',
+            'email':'john.smith@fakemail.com',
+            'addr':'via giordano bruno 8, Pisa',
+            'profession':'plumber',
+            'interest':['Technology','Sport','Travel','Boardgames'],
+            'music':['Rock','Punk','Pop'],
+            'social':['tw','inst'],
+            'premium':0
+        },
+        {
+            'uname':'Teabeany','ulast':'Stone',
+            'sx':'F',
+            'email':'bean85@fakemail.com',
+            'addr':'dirty lake avenue 8, London',
+            'profession':'IT counseling group',
+            'interest':['Sport','Wine', 'Movie','Disco'],
+            'music':['Pop','Classic'],
+            'social':['inst','fb'],
+            'premium':1
+        }]
     return render_template('auth/user_profile.html')
     

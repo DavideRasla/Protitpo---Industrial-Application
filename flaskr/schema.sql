@@ -6,13 +6,15 @@ CREATE TABLE user (
   uname TEXT NOT NULL,
   ulast TEXT NOT NULL,
   email TEXT NOT NULL,
-  birthday TEXT NOT NULL,
-  addr TEXT NOT NULL,
-  social TEXT NOT NULL,
-  interest TEXT NOT NULL,
-  music TEXT NOT NULL,
-  voice_id,
-  face_id
+  premium TEXT,
+  profession TEXT,
+  birthday TEXT ,
+  addr TEXT ,
+  social TEXT ,
+  interest TEXT ,
+  music TEXT,
+  voice_id TEXT,
+  face_id TEXT
 );
 
 /*CREATE TABLE post (
