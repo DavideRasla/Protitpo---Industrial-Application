@@ -54,7 +54,7 @@ def register():
 
         if error is None:
             db.execute(
-                'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],data['premium'],data['profession'],json.dumps(data['social']),json.dumps(data['interest']),json.dumps(data['music']))
             )
             db.commit()
