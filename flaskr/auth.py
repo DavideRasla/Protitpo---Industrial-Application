@@ -3,7 +3,7 @@ import base64
 import io
 from PIL import Image
 from flaskr.face_Def import *
-
+import wave
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify,
@@ -71,12 +71,34 @@ def login_face():
 
         Id_User_Verified = Identify_User()
        # Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
-        #Id_User_Verified = cwd = os.getcwd() 
+       #Id_User_Verified = cwd = os.getcwd() 
         return jsonify(Id_User_Verified)
     return render_template('auth/login_face_revised.html')
 
 @bp.route('/login_voice', methods=('GET', 'POST'))
 def login_voice():
     if request.method == 'POST':
-        return jsonify(request.form['userID'], request.form['file'])
+        #return jsonify(request.form)
+        #salvare il blob in wav nella cartella
+
+        channels = 1
+        sampwidth = 2
+        framerate = 42000 
+
+
+        name = 'flaskr/TestUserVoice/newrec.wav'
+        audio = wave.open(name, 'wb')
+        audio.setnchannels(channels)
+        audio.setsampwidth(sampwidth)
+        audio.setframerate(framerate)
+
+
+        data = request.data
+       
+        audio.writeframes(data)
+        audio.close()
+        
+        
+
+        return data
     return render_template('auth/login_voice_revised.html')
