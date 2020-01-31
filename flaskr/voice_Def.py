@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 from io import BytesIO
 import base64
 import wave
+import json
 import wave, struct, math
 from PIL import Image, ImageDraw
 from azure.cognitiveservices.vision.face import FaceClient
@@ -18,13 +19,13 @@ from azure.cognitiveservices.vision.face.models import TrainingStatusType, Perso
 #################################################### LOGGING WITH THE KEYS #############################
 headers = {
     'Content-Type': 'application/json',
-    'Ocp-Apim-Subscription-Key': 'f08811df201948ed9074dccd4c288c53',
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
 }
 headers_FromStream = {
     'Content-Type': 'application/octet-stream',
-    'Ocp-Apim-Subscription-Key': 'f08811df201948ed9074dccd4c288c53',
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
 }
-os.environ["VOICE_SUBSCRIPTION_KEY"] = "f08811df201948ed9074dccd4c288c53"
+os.environ["VOICE_SUBSCRIPTION_KEY"] = "ac52b08018554e1aa904c37bd1bba179"
 os.environ["VOICE_ENDPOINT"]="https://usersvoice.cognitiveservices.azure.com/spid/v1.0"
 # Set the FACE_SUBSCRIPTION_KEY environment variable with your key as the value.
 # This key will serve all examples in this document.
@@ -75,7 +76,7 @@ def Add_Enrollment_To_Single_Profile(id):# Registra un profilo
     headers_Enrollment = {
     # Request headers
     'Content-Type': 'multipart/form-data',
-    'Ocp-Apim-Subscription-Key': 'f08811df201948ed9074dccd4c288c53',
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
     }
     params = urllib.parse.urlencode({
     # Request parameters
@@ -83,24 +84,6 @@ def Add_Enrollment_To_Single_Profile(id):# Registra un profilo
     })
  
 
-   #Reg_Voice_FileName= [file for file in glob.glob('**/*.wav', recursive = True) if file.startswith("EnrollUserVoice/Rec_New_User")]
-   # #print(Reg_Voice_FileName)
-    #w = wave.open('./EnrollUserVoice/newrec.wav', 'wb')
-    #binary_wav = w.readframes(w.getnframes())
-    #w.setparams(1,2,16000)
-     
-    #w.setnchannels(1)
-   # w.setsampwidth(2)
-    #w.setframerate(16000)#These settings are required by the azure API
-    #w.close()
-    #guardo caratteristiche audio
-
-  #  wav_file = wave.open('./EnrollUserVoice/newrec.wav', 'rb')
-   # print('Il frame rate è: ', wav_file.getframerate())
-    #print('Channels: ', wav_file.getnchannels())
-    #print('sample width: ', wav_file.getsampwidth())
-
-#    wav_file.close()
 
     with wave.open("./EnrollUserVoice/newrec.wav", "rb") as wav_file:    # Open WAV file in read-only mode.
         # Get basic information.
@@ -113,13 +96,12 @@ def Add_Enrollment_To_Single_Profile(id):# Registra un profilo
         # Read audio data.
         frames = wav_file.readframes(n_frames)    # Read n_frames new frames.
 
-        assert len(frames) == sample_width * n_frames
-
+        
     newframerate = 16000
     # Duplicate to a new WAV file.
     with wave.open("./EnrollUserVoice/newrec.wav", "wb") as wav_file:    # Open WAV file in write-only mode.
         # Write audio data.
-        nparams = (n_channels, sample_width, newframerate, n_frames, comp_type, comp_name)
+        nparams = (1, 2, newframerate, n_frames, comp_type, comp_name)
         wav_file.setparams(nparams)
         wav_file.writeframes(frames)
 
@@ -147,7 +129,7 @@ def Add_Enrollment_To_Single_Profile(id):# Registra un profilo
 
 def Get_Operation_Status(url_to_use):
     headers_Simple = {
-    'Ocp-Apim-Subscription-Key': 'f08811df201948ed9074dccd4c288c53',
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
     }
     params = urllib.parse.urlencode({
 
@@ -174,12 +156,12 @@ def Get_Operation_Status(url_to_use):
    
    # return personId
 
-def identify_User_Voice(id):
+def identify_User_Voice(lista_utenti_id):
 
     headers_Enrollment = {
     # Request headers
     'Content-Type': 'multipart/form-data',
-    'Ocp-Apim-Subscription-Key': 'f08811df201948ed9074dccd4c288c53',
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
     }
     params = urllib.parse.urlencode({
     # Request parameters
@@ -214,23 +196,160 @@ def identify_User_Voice(id):
         
     body = data 
         #Request URL 
-    VoiceIdentifyAPI = "https://usersvoice.cognitiveservices.azure.com//spid/v1.0/identify?identificationProfileIds="+id+"&%s" % params
 
-    try:
+    for id in lista_utenti_id:
 
-        response = requests.post(VoiceIdentifyAPI, data= body, params=params, headers=headers_Enrollment) 
+        try:
+            VoiceIdentifyAPI = "https://usersvoice.cognitiveservices.azure.com/spid/v1.0/identify?identificationProfileIds="+id+"&%s" % params
 
-        print("Identify response:" + str(response))
-        print("Identify, header:",response.headers)
-        Results_header = response.headers
-        print("Identify Url Operation: ",Results_header['Operation-Location'])
-    except Exception as e:
-        print("ERROR_Enrollment:",e)
+            response = requests.post(VoiceIdentifyAPI, data= body, params=params, headers=headers_Enrollment) 
+
+            print("Identify response:" + str(response))
+            print("Identify, header:",response.headers)
+            Results_header = response.headers
+            print("Identify Url Operation: ",Results_header['Operation-Location'])
+        except Exception as e:
+            print("ERROR_Enrollment:",e)
 
     return Results_header['Operation-Location'] 
 
+def Get_All_Profiles():
+    headers_Simple = {
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
+    }
+    params = urllib.parse.urlencode({
+
+    })
+
+    body = dict()
+    body["locale"] = "en-us"
+    body = str(body) 
+        #Request URL 
+    GetProfilesAPI = "https://usersvoice.cognitiveservices.azure.com/spid/v1.0/identificationProfiles?%s"
+
+    from ast import literal_eval
+
+    try:
+        # REST Call
+        #time.sleep(10)
+        response = requests.get(GetProfilesAPI, data=body, headers=headers_Simple) 
+
+        json_data = json.loads(response.text)
+        t = []
+        for x in range(0,len(json_data)):
+            t.append(json_data[x]['identificationProfileId'])
+        print('Lista ID Utenti: ',t)
+
+
+            
+
+    except Exception as e:
+        print(e)
+    
+    return t
+
+
+def Delete_All_Profiles(ListaProfili):
+    headers_Enrollment ={ 
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
+    }
+    params = urllib.parse.urlencode({
+
+    })
+
+     
+    body = dict()
+    body["locale"] = "en-us"
+    body = str(body) 
+        #Request URL 
+  
+    for id in ListaProfili:
+        try:
+            DeleteProfileAPI = "https://usersvoice.cognitiveservices.azure.com/spid/v1.0/identificationProfiles/"+id
+
+            response = requests.delete(DeleteProfileAPI, data= body, params=params, headers=headers_Enrollment) 
+
+            print("Delete_ALL_PROFILE, response:" + str(response))
+            # print("Delete, header:",response.headers)
+
+        except Exception as e:
+            print("ERROR_Delete_ALL_Profile:",e)
+
+    return response.headers 
+
+def Get_A_Profile(id):
+    headers_Enrollment ={ 
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
+    }
+    params = urllib.parse.urlencode({
+
+    })
+
+     
+    body = dict()
+    body["locale"] = "en-us"
+    body = str(body) 
+        #Request URL 
+  
+    try:
+        GetProfileAPI = "https://usersvoice.cognitiveservices.azure.com/spid/v1.0/identificationProfiles/"+id
+
+        response = requests.get(GetProfileAPI, data= body, params=params, headers=headers_Enrollment) 
+        responseJson = response.json()
+        print("Profile JSON:" + str(responseJson))
+        # print("Delete, header:",response.headers)
+
+    except Exception as e:
+        print("ERROR_GetProfile:",e)
+
+    return
+
+
+def Delete_A_Profile(id):
+    headers_Enrollment ={ 
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
+    }
+    params = urllib.parse.urlencode({
+
+    })
+
+     
+    body = dict()
+    body["locale"] = "en-us"
+    body = str(body) 
+        #Request URL 
+  
+
+    try:
+        DeleteProfileAPI = "https://usersvoice.cognitiveservices.azure.com/spid/v1.0/identificationProfiles/"+id
+
+        response = requests.delete(DeleteProfileAPI, data= body, params=params, headers=headers_Enrollment) 
+
+        print("Delete_A_PROFILE, response:" + str(response))
+        # print("Delete, header:",response.headers)
+
+    except Exception as e:
+        print("ERROR_Delete_A_Profile:",e)
+
+    return response.headers 
+
 New_User_ID = Add_User_Voice()
-Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID)
-Get_Operation_Status(Operation_ID_URL)
-Operation_Identification_Url = identify_User_Voice(New_User_ID)
-Get_Operation_Status(Operation_Identification_Url)
+
+#Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID)
+#Get_Operation_Status(Operation_ID_URL)
+
+#Get_A_Profile(New_User_ID)
+
+ListaUtenti = Get_All_Profiles()
+#Operation_Identification_Url = identify_User_Voice(ListaUtenti)
+#Get_Operation_Status(Operation_Identification_Url)
+Delete_A_Profile(New_User_ID)
+ListaUtenti = Get_All_Profiles()
+#ListaUtenti = Get_All_Profiles()
+#print(ListaUtenti)
+#Operation_Id = identify_User_Voice(ListaUtenti)
+#Get_Operation_Status(Operation_Id)
+
+
+
+
