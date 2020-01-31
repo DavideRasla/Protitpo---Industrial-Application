@@ -95,7 +95,7 @@
 								<span class="label-input100">Premium</span>
 								<input type="radio" class="form-check-input" name="premium" value="0" >
 								<label class="form-check-label" for="sxm">Y</label>
-								<input type="radio" class="form-check-input" name="premium" value="1" >
+								<input type="radio" class="form-check-input" name="premium" value="1" checked="checked">
 								<label class="form-check-label" for="sxf">N</label>
 								<span class="focus-input100"></span>
 							</div>
@@ -124,8 +124,8 @@
 
 							<div class="wrap-input100 validate-input m-b-18 form-check form-check-inline" style="padding-left: 20px;">
 								<span class="label-input100">Sex</span>
-								<input type="radio" class="form-check-input" name="sx" value="M" id="sxm">
-								<label class="form-check-label" for="sxm">M</label>
+								<input type="radio" class="form-check-input" name="sx" value="M" id="sxm" checked="checked">
+								<label class="form-check-label" for="sxm" >M</label>
 								<input type="radio" class="form-check-input" name="sx" value="F" id="sxf">
 								<label class="form-check-label" for="sxf">F</label>
 								<span class="focus-input100"></span>
@@ -136,7 +136,7 @@
 						<div class="step-wrapper">
 							<div class="wrap-input100 validate-input m-b-26" >
 								<span class="label-input100">Social</span>
-								<select id="social" class="form-control" style="width: 100%;" name="social[]" >
+								<select id="social" class="form-control" style="width: 100%;" name="social[]"  multiple="multiple">
 									<option value="fb">Facebook</option>
 									<option value="tw">Twitter</option>
 									<option value="inst">Instagram</option>
@@ -146,6 +146,7 @@
 							<div class="wrap-input100 validate-input m-b-18" >
 								<span class="label-input100">Interest</span>
 								<select class="form-control" style="width: 100%;" id="interest" name="interest[]">
+									
 								</select>
 								<span class="focus-input100"></span>
 							</div>
@@ -358,14 +359,16 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 			date_input.datepicker(options);
 
 			$('#social').select2({
-				tags: true,
+				placeholder: "Social",
 				multiple: true
 			});
 			$('#interest').select2({
+				placeholder: "Interests",
 				tags: true,
 				multiple: true
 			});
 			$('#music').select2({
+				placeholder: "Music",
   				tags: true,
 				multiple: true
 			});
@@ -452,7 +455,6 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 			}
 			fd.append('op','reg_new_user');
 			fd.append('user_data',JSON.stringify(form_data));
-
             $.ajax({
                 url: '/auth/register',
                 data: fd,

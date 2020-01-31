@@ -88,21 +88,50 @@ def register():
             error = 'Email {} is already registered.'.format(data['email'])
 
         if error is None:
-            interest = {
-                'interest':data['interest'],
-            }
-            social = {
-                'social':data['social']
-            }
-            music = {
-                'music':data['music']
-            }
-            curr = db.cursor()
-            row_id = curr.execute(
-                'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music, sx) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],data['premium'],data['profession'],json.dumps(social),json.dumps(interest),json.dumps(music), data['sx'])
-            ).lastrowid
-           # db.commit()
+            if 'uname' not in data:
+                data['uname'] = ""
+            if 'ulast' not in data:
+                data['ulast'] = ""
+            if 'email' not in data:
+                data['email'] = ""
+            if 'birthday' not in data:
+                data['birthday'] = ""
+            if 'addr' not in data:
+                data['addr'] = ""
+            if 'profession' not in data:
+                data['profession'] = ""
+            if 'interest' in data:
+                if isinstance(data['interest'], list):
+                    interest = {'interest':data['interest'],}
+                else:
+                    interest = {'interest':[data['interest']],}
+            else:
+                interest = {'interest':[],}
+            if 'social' in data:
+                if isinstance(data['social'], list):
+                    social = {'social':data['social'],}
+                else:
+                    social = {'social':[data['social']],}
+            else:
+                social = {'social':[]}
+            if 'music' in data:
+                if isinstance(data['interest'], list):
+                    music = {'music':data['music'],}
+                else:
+                    music = {'music':[data['music']],}
+            else:
+                music = {'music':[]}
+            
+            try:
+                curr = db.cursor()
+                row_id = curr.execute(
+                    'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music, sx) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],data['premium'],data['profession'],json.dumps(social),json.dumps(interest),json.dumps(music), data['sx'])
+                ).lastrowid
+                db.commit()
+            except sqlite3.Error as er:
+                return jsonify(er)
+            # db.commit()
             #row_id = get_last_row(db)
         else:
             return jsonify(error)
@@ -220,7 +249,7 @@ def user_profile():
         g.users = session.get('users')  # reading and updating session data
     else:
         g.users = [] # setting session data
-    #g.users = loadProfiles('0',['3'])
+    #g.users = loadProfiles('0',['5'])
     #g.users = loadProfiles()
     #g.users = [{
     #        'uname':'John','ulast':'Smith',
