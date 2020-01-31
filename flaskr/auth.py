@@ -94,13 +94,8 @@ def login_face():
         im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
 
         Id_User_Verified = Identify_User()
-<<<<<<< HEAD
         #Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
         #Id_User_Verified = cwd = os.getcwd()
-=======
-       # Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
-       #Id_User_Verified = cwd = os.getcwd() 
->>>>>>> 9eec7665fba080ff1a1e7e04763c8863982535c8
         return jsonify(Id_User_Verified)
     return render_template('auth/login_face_revised.html')
 
