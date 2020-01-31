@@ -18,10 +18,11 @@ bp = Blueprint('api', __name__, url_prefix='/api')
 
 @bp.route('/get_name', methods=('GET', 'POST'))
 def NameToExternal():
+    print('roba')
     if request.method == 'POST':
         #return jsonify(request.form)
         #salvare il blob in wav nella cartella
-
+        print('eco')
         Filename='flaskr/LogUser/Test_User.jpg'
         #biteimg = bytes(request.form['file'],encoding="ascii")
         biteimg = request.form['file'].encode()

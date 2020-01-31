@@ -13,6 +13,7 @@ old_faces = 0
 count = 0
 img = 0
 frame = img
+url = 'http://127.0.0.1:5000/api/get_name'
 
 while True:
     # Read the frame
@@ -28,7 +29,11 @@ while True:
       
     if count > 8:#se per 8 frame riconosco un cambio nel numero di  facce
        old_faces = len(faces)
-       # x = requests.post()
+       imencoded = cv2.imencode(".jpg", frame)[1]
+       body = str(imencoded)
+       print('send')
+       x = requests.post(url, data = body)
+       count = 0
 
 
     print(len(faces))
