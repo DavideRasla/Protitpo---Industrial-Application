@@ -180,7 +180,7 @@ def register_voice():
         New_User_ID_Voice = Add_User_Voice()
         Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID_Voice)
         Result_Of_Enrollment = Get_Operation_Status(Operation_ID_URL)
-        print("IL RISULTATO È: ", Result_Of_Enrollment) 
+        print("IL RISULTATO DELLA REGISTRAZIONE:",Result_Of_Enrollment) 
 
         return Result_Of_Enrollment
     return render_template('auth/register_v2.html')
