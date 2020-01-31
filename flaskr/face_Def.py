@@ -59,7 +59,7 @@ def CreatePersonGroupID():#Crea un nuovo PersonGroupID
 def Add_Person(name, Id_On_My_DB):#Dato nome e id sul database, aggiunge una persona e restituise il suo id
     body = dict()
     body["name"] = name
-    body["userData"] = Id_On_My_DB#UserData  l'id dell'utente nel DB nostro
+    body["userData"] = Id_On_My_DB
     body = str(body)
 
 
@@ -74,7 +74,7 @@ def Add_Person(name, Id_On_My_DB):#Dato nome e id sul database, aggiunge una per
         print("PERSONID: "+str(personId))
         
     except Exception as e:
-        print(e)    
+        print('Error in ADD_Person:',e)    
 
     return personId
 
@@ -201,7 +201,7 @@ def Identify_User():
 
     # Request URL 
     FaceApiDetect = 'https://users.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true' 
-
+    faceIdsList = []
     for image in Test_User_Image:
         data = open(image, "rb").read()
         body = data
@@ -210,13 +210,15 @@ def Identify_User():
             # REST Call 
             response = requests.post(FaceApiDetect, data=body, headers=headers_FromStream) 
             responseJson = response.json()
-            faceId = responseJson[0]["faceId"]
+            for x in range(0, len(responseJson)):
+                faceId = responseJson[x]["faceId"]
+                faceIdsList.append(faceId)
             print("FACE ID: "+str(faceId))
 
         except Exception as e:
             print('Error is: ',e)
 
-    faceIdsList = [faceId]
+   # faceIdsList = [faceId]
     #Second Phase: Given the test_face return the related user
 
     body = dict()
@@ -228,19 +230,21 @@ def Identify_User():
 
     # Request URL 
     FaceApiIdentify = 'https://users.cognitiveservices.azure.com/face/v1.0/identify' 
-
+    Id_Recognized = []
     try:
         # REST Call 
         response = requests.post(FaceApiIdentify, data=body, headers=headers) 
         responseJson = response.json()
-        personId = responseJson[0]["candidates"][0]["personId"]
-        confidence = responseJson[0]["candidates"][0]["confidence"]
-        print("PERSON ID: "+str(personId)+ ", and CONFIDENCE :"+str(confidence))
-            
+        for x in range(0, len(responseJson)): 
+            personId = responseJson[x]["candidates"][0]["personId"]
+            confidence = responseJson[x]["candidates"][0]["confidence"]
+            print("PERSON ID: "+str(personId)+ ", and CONFIDENCE :"+str(confidence))
+            Id_Recognized.append(personId)
+            print(Id_Recognized) 
     except Exception as e:
         print("Could not detect")
         return "User Not Found"
-    return str(personId)
+    return Id_Recognized
 
 
 
@@ -268,7 +272,6 @@ def Delete_Log_Photos(): #Delete all the photos used for logging
     if(len(Test_User_Image) == 0):
         return 1
     return 0
-
 
 
 

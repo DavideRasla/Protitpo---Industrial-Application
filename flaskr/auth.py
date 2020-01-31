@@ -16,9 +16,6 @@ from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-def get_last_row(db):
-    cur = db.cursor()
-    return cur.lastrowid
 
 def save_image_to_file(img,img_data):
     filename=img
@@ -29,7 +26,7 @@ def save_image_to_file(img,img_data):
 def loadProfileByFaceId(id):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM user  WHERE faceid =?",id)
+    cur.execute('SELECT * FROM user  WHERE faceid =(?)',(id,))
     row = cur.fetchone()
     return row
 
@@ -100,26 +97,30 @@ def register():
             music = {
                 'music':data['music']
             }
-            db.execute(
+            curr = db.cursor()
+            row_id = curr.execute(
                 'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music, sx) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],data['premium'],data['profession'],json.dumps(social),json.dumps(interest),json.dumps(music), data['sx'])
-            )
-            db.commit()
-            row_id = get_last_row(db)
+            ).lastrowid
+           # db.commit()
+            #row_id = get_last_row(db)
         else:
             return jsonify(error)
 
-        if request.form['img_loaded'] == 1:
+        if request.form['img_loaded'] == '1':
             save_image_to_file("flaskr/RegUser/User1.jpg",request.form['file1'])
             save_image_to_file("flaskr/RegUser/User2.jpg",request.form['file2'])
             save_image_to_file("flaskr/RegUser/User3.jpg",request.form['file3'])
-            New_User_Id = Add_Person(data['uname'],row_id)
+            New_User_Id = Add_Person(str(data['uname']),str(row_id))
             Add_Images_to_single_person(New_User_Id)
-            Train_Person_Group('user_db') 
+            Train_Person_Group('users_db')
+            
             db.execute(
                 'UPDATE user SET faceid=? WHERE id =?',
-                (New_User_Id,row_id)
+                (str(New_User_Id),str(row_id))
             )
+            print('UPDATE user SET faceid="'+str(New_User_Id)+'" WHERE id ='+str(row_id))
+            
             db.commit()
 
         return jsonify('ok')

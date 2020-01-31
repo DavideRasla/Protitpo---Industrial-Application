@@ -445,9 +445,11 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 					var image = $("#imageprev"+i).attr('src');
 					fd.append('file'+i,image);
 				}
-				fd.append('img_loaded',1);
+				fd.append('img_loaded','1');
 			}
-			fd.append('img_loaded',0);
+			else{
+				fd.append('img_loaded','0');
+			}
 			fd.append('op','reg_new_user');
 			fd.append('user_data',JSON.stringify(form_data));
 
