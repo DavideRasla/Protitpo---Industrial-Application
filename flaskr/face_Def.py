@@ -239,6 +239,7 @@ def Identify_User():
             
     except Exception as e:
         print("Could not detect")
+        return "User Not Found"
     return str(personId)
 
 

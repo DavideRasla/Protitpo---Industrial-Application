@@ -4,6 +4,7 @@ import io
 import json
 from PIL import Image
 from flaskr.face_Def import *
+from flaskr.voice_Def import *
 import wave
 
 from flask import (
@@ -145,10 +146,44 @@ def login_voice():
         audio.writeframes(data)
         audio.close()
         
-        
+        ListaUtenti = Get_All_Profiles()
+        return identify_User_Voice(ListaUtenti)
 
-        return data
+    
+ 
     return render_template('auth/login_voice_revised.html')
+
+
+@bp.route('/register_voice', methods=('GET', 'POST'))
+def register_voice():
+    if request.method == 'POST':
+        #return jsonify(request.form)
+        #salvare il blob in wav nella cartella
+
+        channels = 1
+        sampwidth = 2
+        framerate = 42000 
+
+
+        name = 'flaskr/EnrollUserVoice/newrec.wav'
+        audio = wave.open(name, 'wb')
+        audio.setnchannels(channels)
+        audio.setsampwidth(sampwidth)
+        audio.setframerate(framerate)
+
+
+        data = request.data
+       
+        audio.writeframes(data)
+        audio.close()
+
+        New_User_ID_Voice = Add_User_Voice()
+        Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID_Voice)
+        Result_Of_Enrollment = Get_Operation_Status(Operation_ID_URL)
+        print("IL RISULTATO È: ", Result_Of_Enrollment) 
+
+        return Result_Of_Enrollment
+    return render_template('auth/register_v2.html')
 
 @bp.route('/profile', methods=('GET', 'POST'))
 def user_profile():

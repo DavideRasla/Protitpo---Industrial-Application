@@ -85,7 +85,7 @@ def Add_Enrollment_To_Single_Profile(id):# Registra un profilo
  
 
 
-    with wave.open("./EnrollUserVoice/newrec.wav", "rb") as wav_file:    # Open WAV file in read-only mode.
+    with wave.open("./flaskr/EnrollUserVoice/newrec.wav", "rb") as wav_file:    # Open WAV file in read-only mode.
         # Get basic information.
         n_channels = wav_file.getnchannels()      # Number of channels. (1=Mono, 2=Stereo).
         sample_width = wav_file.getsampwidth()    # Sample width in bytes.
@@ -99,14 +99,14 @@ def Add_Enrollment_To_Single_Profile(id):# Registra un profilo
         
     newframerate = 16000
     # Duplicate to a new WAV file.
-    with wave.open("./EnrollUserVoice/newrec.wav", "wb") as wav_file:    # Open WAV file in write-only mode.
+    with wave.open("./flaskr/EnrollUserVoice/newrec.wav", "wb") as wav_file:    # Open WAV file in write-only mode.
         # Write audio data.
         nparams = (1, 2, newframerate, n_frames, comp_type, comp_name)
         wav_file.setparams(nparams)
         wav_file.writeframes(frames)
 
     
-    data = open(r'./EnrollUserVoice/newrec.wav', 'rb').read()
+    data = open(r'./flaskr/EnrollUserVoice/newrec.wav', 'rb').read()
         
     #fs, data = wavfile.read('./EnrollUserVoice/Rec_New_User.wav')
     body = data 
@@ -142,19 +142,71 @@ def Get_Operation_Status(url_to_use):
 
     try:
         # REST Call
-        time.sleep(10)
+       # time.sleep(10)
         response = requests.get(VoiceGetStatus, data=body, headers=headers_Simple) 
 
+        json_data = json.loads(response.text)
+        Empty = "None"
+
+        while  Empty  in str(json_data['processingResult']): #aspetto finche non ho una risposta
+                response = requests.get(VoiceGetStatus, data=body, headers=headers_Simple) 
+                json_data = json.loads(response.text)
+            
+        status = json_data['status']
+        print(str(status))
         print("Get_Operation_Status, status code:" + str(response.status_code))
         responseJson = response.json()
        # personId = responseJson["identificationProfileId"]
         print("Get_Operation_Status, results:: "+str(responseJson))
-            
+        return json_data['processingResult']['enrollmentStatus']
 
     except Exception as e:
-        print(e)
-   
-   # return personId
+        print("ERRORE NELLA GET STATUS IN REGISTRAZIONE",e)
+
+def Get_Operation_Status_Identify(url_to_use):
+    headers_Simple = {
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
+    }
+    params = urllib.parse.urlencode({
+
+    })
+
+    body = {} 
+        #Request URL 
+    VoiceGetStatus = url_to_use
+
+
+    try:
+        # REST Call
+        #time.sleep(5)
+
+        response = requests.get(VoiceGetStatus, data=body, headers=headers_Simple) 
+
+        
+        json_data = json.loads(response.text)
+        Empty = "None"
+
+        while  Empty  in str(json_data['processingResult']):#aspetto finche non ho una risposta
+                response = requests.get(VoiceGetStatus, data=body, headers=headers_Simple) 
+                json_data = json.loads(response.text)
+            
+        status = json_data['status']
+        confidence = json_data['processingResult']['confidence']
+        id_Utente_Identificato = json_data['processingResult']['identifiedProfileId']
+        print(str(status))
+        print(str(confidence))
+        print(str(id_Utente_Identificato))
+     
+        responseJson = response.json()
+       # print("Get_Operation_Status, results:: "+str(responseJson))
+
+        if("High" in confidence or "Normal" in confidence):
+            print("Utente trovato! ID: ", id_Utente_Identificato)
+            return id_Utente_Identificato   
+
+    except Exception as e:
+        print("Error in Get_Status_Identify",e)
+    return 404 
 
 def identify_User_Voice(lista_utenti_id):
 
@@ -170,7 +222,7 @@ def identify_User_Voice(lista_utenti_id):
 
 
 
-    with wave.open("./TestUserVoice/newrec.wav", "rb") as wav_file:    # Open WAV file in read-only mode.
+    with wave.open("./flaskr/TestUserVoice/newrec.wav", "rb") as wav_file:    # Open WAV file in read-only mode.
         # Get basic information.
         n_channels = wav_file.getnchannels()      # Number of channels. (1=Mono, 2=Stereo).
         sample_width = wav_file.getsampwidth()    # Sample width in bytes.
@@ -185,14 +237,14 @@ def identify_User_Voice(lista_utenti_id):
 
     newframerate = 16000
     # Duplicate to a new WAV file.
-    with wave.open("./TestUserVoice/newrec.wav", "wb") as wav_file:    # Open WAV file in write-only mode.
+    with wave.open("./flaskr/TestUserVoice/newrec.wav", "wb") as wav_file:    # Open WAV file in write-only mode.
         # Write audio data.
         nparams = (n_channels, sample_width, newframerate, n_frames, comp_type, comp_name)
         wav_file.setparams(nparams)
         wav_file.writeframes(frames)
 
     
-    data = open(r'./TestUserVoice/newrec.wav', 'rb').read()
+    data = open(r'./flaskr/TestUserVoice/newrec.wav', 'rb').read()
         
     body = data 
         #Request URL 
@@ -205,13 +257,17 @@ def identify_User_Voice(lista_utenti_id):
             response = requests.post(VoiceIdentifyAPI, data= body, params=params, headers=headers_Enrollment) 
 
             print("Identify response:" + str(response))
-            print("Identify, header:",response.headers)
+            #print("Identify, header:",response.headers)
             Results_header = response.headers
-            print("Identify Url Operation: ",Results_header['Operation-Location'])
+           # print("Identify Url Operation: ",Results_header['Operation-Location'])
+        #Guardo lo stato dell'operazione
+            id_Trovato = Get_Operation_Status_Identify(Results_header['Operation-Location'])
+            if id_Trovato != 404:
+                return id_Trovato
         except Exception as e:
-            print("ERROR_Enrollment:",e)
+            print("ERROR_ Identfy:",e)
 
-    return Results_header['Operation-Location'] 
+    return "Nessun Utente trovato" 
 
 def Get_All_Profiles():
     headers_Simple = {
@@ -333,7 +389,7 @@ def Delete_A_Profile(id):
 
     return response.headers 
 
-New_User_ID = Add_User_Voice()
+#New_User_ID = Add_User_Voice()
 
 #Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID)
 #Get_Operation_Status(Operation_ID_URL)
@@ -341,8 +397,9 @@ New_User_ID = Add_User_Voice()
 #Get_A_Profile(New_User_ID)
 
 #ListaUtenti = Get_All_Profiles()
-#Operation_Identification_Url = identify_User_Voice(ListaUtenti)
+#print(identify_User_Voice(ListaUtenti))
 #Get_Operation_Status(Operation_Identification_Url)
+#Delete_All_Profiles(ListaUtenti)
 #Delete_A_Profile(New_User_ID)
 #ListaUtenti = Get_All_Profiles()
 #ListaUtenti = Get_All_Profiles()

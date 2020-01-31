@@ -227,9 +227,9 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 
 							<div id="controls" style="position: relative;top: 20%">
 							<div id="formats">Click on Record and read this text for minimum 30 seconds </div>
-									<button id="recordButton">Record</button>
-									<button id="pauseButton" >Pause</button>
-									<button id="stopButton" >Stop</button>
+									<button type="button" id="recordButton">Record</button>
+									<button type="button" id="pauseButton" >Pause</button>
+									<button type="button" id="stopButton" >Stop</button>
 						<ol id="recordingsList"></ol>
 								</div>
 						</div> 
@@ -241,7 +241,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 						<div id="recend" style="height: 100%;display: none;">
 							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
 								<div id="audio_sample"></div>
-								<button  type="button" class="btn-custom btn-blue" onclick="start_rec()">
+								<button  type="button" class="btn-custom btn-blue" onclick="startRecording()">
 									Retry!
 								</button>
 							</div>  
@@ -282,6 +282,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+	 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 	<script>
 
 		var snap = 3
@@ -603,7 +604,7 @@ function stopRecording() {
 
 
             $.ajax({
-                url: '/auth/login_voice',
+                url: '/auth/register_voice',
                 data: blob, 
                 processData: false,
                 contentType: false,
