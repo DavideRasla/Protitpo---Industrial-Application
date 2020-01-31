@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS user;
 /*DROP TABLE IF EXISTS post;*/
 
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   uname TEXT NOT NULL,
   ulast TEXT NOT NULL,
@@ -13,8 +13,9 @@ CREATE TABLE user (
   social TEXT ,
   interest TEXT ,
   music TEXT,
-  voice_id TEXT,
-  face_id TEXT
+  voiceid TEXT,
+  faceid TEXT,
+  sx TEXT
 );
 
 /*CREATE TABLE post (

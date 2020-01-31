@@ -4,15 +4,12 @@
 }
 
 body{
-    background:#eee;
-    margin-top:20px;
+    background:#2e5077;
 }
 
 html body .m-t-30 {
-    margin-top: 15px;
 }
 html body .m-t-10 {
-    margin-top: 10px;
 }
 html body .font-medium {
     font-weight: 500;

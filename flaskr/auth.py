@@ -7,7 +7,7 @@ from flaskr.face_Def import *
 import wave
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify,
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify,session,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -27,28 +27,42 @@ def save_image_to_file(img,img_data):
 
 def loadProfileByFaceId(id):
     db = get_db()
-    db.execute(
-        'SELECT * FROM user  WHERE face_id =?',
-        (id)
-    )
-    row = db.cursor.fetcall()
+    cur = db.cursor()
+    cur.execute("SELECT * FROM user  WHERE faceid =?",id)
+    row = cur.fetchone()
     return row
 
 def loadProfileByVoiceId(id):
     db = get_db()
-    db.execute(
-        'SELECT * FROM user  WHERE voice_id =?',
-        (id)
-    )
-    row = db.cursor.fetcall()
+    cur = db.cursor()
+    cur.execute('SELECT * FROM user  WHERE voiceid =?',(id))
+    row = cur.fetchone()
     return row
 
 def loadProfiles(fv,ids):
-    for ids in ids:
-        if fv == 0: #face
+    users = []
+    for id in ids:
+        if fv == '0': #face
             data = loadProfileByFaceId(id)
         else:
             data = loadProfileByVoiceId(id)
+        if data is not None:
+            user ={
+                'uname':data[1],
+                'ulast':data[2],
+                'sx':data[13],
+                'email':data[3],
+                'birthday':data[6],
+                'addr':data[7],
+                'profession':data[5],
+                'interest':json.loads(data[9])['interest'],
+                'music':json.loads(data[10])['music'],
+                'social':json.loads(data[8])['social'],
+                'premium':data[4]
+            }
+            users.append(user)
+    return users
+
 @bp.route('/start', methods=('GET', 'POST'))
 def start():
      #return render_template('auth.html')
@@ -76,9 +90,18 @@ def register():
             error = 'Email {} is already registered.'.format(data['email'])
 
         if error is None:
+            interest = {
+                'interest':data['interest'],
+            }
+            social = {
+                'social':data['social']
+            }
+            music = {
+                'music':data['music']
+            }
             db.execute(
-                'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],data['premium'],data['profession'],json.dumps(data['social']),json.dumps(data['interest']),json.dumps(data['music']))
+                'INSERT INTO user (uname, ulast, email, birthday, addr, premium, profession, social, interest, music, sx) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                (data['uname'], data['ulast'], data['email'], data['birthday'], data['addr'],data['premium'],data['profession'],json.dumps(social),json.dumps(interest),json.dumps(music), data['sx'])
             )
             db.commit()
             row_id = get_last_row(db)
@@ -93,7 +116,7 @@ def register():
             Add_Images_to_single_person(New_User_Id)
             Train_Person_Group('user_db') 
             db.execute(
-                'UPDATE user SET face_id=? WHERE id =?',
+                'UPDATE user SET faceid=? WHERE id =?',
                 (New_User_Id,row_id)
             )
             db.commit()
@@ -111,15 +134,20 @@ def register():
 def login_face():
     if request.method == 'POST':
         filename='flaskr/LogUser/Test_User.jpg'
-        #biteimg = bytes(request.form['file'],encoding="ascii")
+        biteimg = bytes(request.form['file'],encoding="ascii")
         biteimg = request.form['file'].encode()
         imgdata = biteimg[biteimg.find(b'/9'):]
         im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(filename)
-
         Id_User_Verified = Identify_User()
+
         #Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
         #Id_User_Verified = cwd = os.getcwd()
-        return jsonify(Id_User_Verified)
+        
+        #g.users = loadProfiles('0',['3'])
+        g.users = loadProfiles('0',Id_User_Verified)
+        session['users'] = g.users # setting session data
+        return url_for('auth.user_profile')
+        #return jsonify(Id_User_Verified)
     return render_template('auth/login_face_revised.html')
 
 @bp.route('/login_voice', methods=('GET', 'POST'))
@@ -146,34 +174,40 @@ def login_voice():
         audio.close()
         
         
+        # loadProfiles(1,Id_User_Verified)
 
         return data
     return render_template('auth/login_voice_revised.html')
 
 @bp.route('/profile', methods=('GET', 'POST'))
 def user_profile():
+    if 'users' in session:
+        g.users = session.get('users')  # reading and updating session data
+    else:
+        g.users = [] # setting session data
+    #g.users = loadProfiles('0',['3'])
     #g.users = loadProfiles()
-    g.users = [{
-            'uname':'John','ulast':'Smith',
-            'sx':'M',
-            'email':'john.smith@fakemail.com',
-            'addr':'via giordano bruno 8, Pisa',
-            'profession':'plumber',
-            'interest':['Technology','Sport','Travel','Boardgames'],
-            'music':['Rock','Punk','Pop'],
-            'social':['tw','inst'],
-            'premium':0
-        },
-        {
-            'uname':'Teabeany','ulast':'Stone',
-            'sx':'F',
-            'email':'bean85@fakemail.com',
-            'addr':'dirty lake avenue 8, London',
-            'profession':'IT counseling group',
-            'interest':['Sport','Wine', 'Movie','Disco'],
-            'music':['Pop','Classic'],
-            'social':['inst','fb'],
-            'premium':1
-        }]
+    #g.users = [{
+    #        'uname':'John','ulast':'Smith',
+    #        'sx':'M',
+    #        'email':'john.smith@fakemail.com',
+    #        'addr':'via giordano bruno 8, Pisa',
+    #        'profession':'plumber',
+    #        'interest':['Technology','Sport','Travel','Boardgames'],
+    #        'music':['Rock','Punk','Pop'],
+    #        'social':['tw','inst'],
+    #        'premium':0
+    #    },
+    #    {
+    #        'uname':'Teabeany','ulast':'Stone',
+    #        'sx':'F',
+    #        'email':'bean85@fakemail.com',
+    #        'addr':'dirty lake avenue 8, London',
+    #        'profession':'IT counseling group',
+    #        'interest':['Sport','Wine', 'Movie','Disco'],
+    #        'music':['Pop','Classic'],
+    #        'social':['inst','fb'],
+    #        'premium':1
+    #    }]
     return render_template('auth/user_profile.html')
     

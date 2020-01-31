@@ -29,12 +29,20 @@
 </head>
 <body>
     <div class="row justify-content-center">
+            {% if g.users|length == 0%}
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Matching not found!</h4>
+                <p>Please try again the login procedure.</p>
+                <hr>
+                <!--<p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>-->
+              </div>
+            {% endif %}
             {% for user in g.users %}
             <div class="col-lg-4 col-xlg-3 col-md-5">
                 <div class="card">
                     <div class="card-body">
                         <center class="m-t-30"> 
-                            {% if user['sx'] == 'M' %}
+                            {% if user['sx'] == "M" %}
                             <img src="{{ url_for('static', filename='assets/user-icon/png/user-16.png') }}" class="img-circle" width="150">
                             {% else %}
                             <img src="{{ url_for('static', filename='assets/user-icon/png/user-7.png') }}" class="img-circle" width="150">
@@ -47,7 +55,7 @@
                                 {% else %}
                                 <div class="col-4" style="visibility: hidden;"><a href="javascript:void(0)" class="link"><i class="fa fa-trophy"></i> <font class="font-medium">Premium</font></a></div>
                                 {% endif %}
-                                <!-- <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-image"></i> <font class="font-medium">54</font></a></div>-->
+                                <!-- <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-image"></i> <font class="font-medium">{{user['SX']}}</font></a></div> -->
                             </div> 
                         </center>
                     </div>
@@ -55,6 +63,7 @@
                     <hr> </div>
                     <div class="card-body"> 
                         <small class="text-muted">Email address </small><h6>{{user['email']}}</h6> 
+                        <small class="text-muted">Birthday </small><h6>{{user['birthday']}}</h6> 
                         <!--<small class="text-muted p-t-30 db">Phone</small><h6>+91 654 784 547</h6> -->
                         <small class="text-muted p-t-30 db">Social Profile</small>
                         <br>
@@ -80,7 +89,7 @@
                         <br>
                         <small class="text-muted p-t-30 db">Address</small><h6>{{user['addr']}}</h6>
                         <div class="map-box">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=via+pietro+giordani+8+pisa+56123;output=embed" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
                         </div> 
                     </div>
                 </div>
@@ -104,6 +113,6 @@
 	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    <!--<div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
 </body>
 </html>
