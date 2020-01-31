@@ -24,8 +24,31 @@ def save_image_to_file(img,img_data):
     biteimg = img_data.encode()
     imgdata = biteimg[biteimg.find(b'/9'):]
     im = Image.open(io.BytesIO(base64.b64decode(imgdata))).save(img)
-    
 
+def loadProfileByFaceId(id):
+    db = get_db()
+    db.execute(
+        'SELECT * FROM user  WHERE face_id =?',
+        (id)
+    )
+    row = db.cursor.fetcall()
+    return row
+
+def loadProfileByVoiceId(id):
+    db = get_db()
+    db.execute(
+        'SELECT * FROM user  WHERE voice_id =?',
+        (id)
+    )
+    row = db.cursor.fetcall()
+    return row
+
+def loadProfiles(fv,ids):
+    for ids in ids:
+        if fv == 0: #face
+            data = loadProfileByFaceId(id)
+        else:
+            data = loadProfileByVoiceId(id)
 @bp.route('/start', methods=('GET', 'POST'))
 def start():
      #return render_template('auth.html')
