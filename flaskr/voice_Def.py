@@ -273,21 +273,78 @@ def Delete_All_Profiles(ListaProfili):
             # print("Delete, header:",response.headers)
 
         except Exception as e:
-            print("ERROR_Enrollment:",e)
+            print("ERROR_Delete_ALL_Profile:",e)
 
     return response.headers 
 
+def Get_A_Profile(id):
+    headers_Enrollment ={ 
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
+    }
+    params = urllib.parse.urlencode({
+
+    })
+
+     
+    body = dict()
+    body["locale"] = "en-us"
+    body = str(body) 
+        #Request URL 
+  
+    try:
+        GetProfileAPI = "https://usersvoice.cognitiveservices.azure.com/spid/v1.0/identificationProfiles/"+id
+
+        response = requests.get(GetProfileAPI, data= body, params=params, headers=headers_Enrollment) 
+        responseJson = response.json()
+        print("Profile JSON:" + str(responseJson))
+        # print("Delete, header:",response.headers)
+
+    except Exception as e:
+        print("ERROR_GetProfile:",e)
+
+    return
+
+
+def Delete_A_Profile(id):
+    headers_Enrollment ={ 
+    'Ocp-Apim-Subscription-Key': 'ac52b08018554e1aa904c37bd1bba179',
+    }
+    params = urllib.parse.urlencode({
+
+    })
+
+     
+    body = dict()
+    body["locale"] = "en-us"
+    body = str(body) 
+        #Request URL 
+  
+
+    try:
+        DeleteProfileAPI = "https://usersvoice.cognitiveservices.azure.com/spid/v1.0/identificationProfiles/"+id
+
+        response = requests.delete(DeleteProfileAPI, data= body, params=params, headers=headers_Enrollment) 
+
+        print("Delete_A_PROFILE, response:" + str(response))
+        # print("Delete, header:",response.headers)
+
+    except Exception as e:
+        print("ERROR_Delete_A_Profile:",e)
+
+    return response.headers 
 
 New_User_ID = Add_User_Voice()
 
-Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID)
-Get_Operation_Status(Operation_ID_URL)
+#Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID)
+#Get_Operation_Status(Operation_ID_URL)
 
+#Get_A_Profile(New_User_ID)
 
 ListaUtenti = Get_All_Profiles()
 #Operation_Identification_Url = identify_User_Voice(ListaUtenti)
 #Get_Operation_Status(Operation_Identification_Url)
-#Delete_All_Profiles(ListaUtenti)
+Delete_A_Profile(New_User_ID)
+ListaUtenti = Get_All_Profiles()
 #ListaUtenti = Get_All_Profiles()
 #print(ListaUtenti)
 #Operation_Id = identify_User_Voice(ListaUtenti)
