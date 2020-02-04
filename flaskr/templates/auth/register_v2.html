@@ -304,7 +304,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 		var snap = 3
 		var actual_snap = 0;
 		var total_snap = 0;
-
+		var voice_loaded = 0;
 		var step = 6;
 		var actual_step = 1;
 		function nextStep(){
@@ -478,6 +478,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 			}
 			fd.append('op','reg_new_user');
 			fd.append('user_data',JSON.stringify(form_data));
+			fd.append('voice_loaded',voice_loaded);
             $.ajax({
                 url: '/auth/register',
                 data: fd,
@@ -628,6 +629,9 @@ function stopRecording() {
 
 	//create the wav blob and pass it on to the
 	rec.exportWAV(uploadWav);
+
+	voice_loaded = 1;
+
 }
 
 

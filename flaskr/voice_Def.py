@@ -248,7 +248,7 @@ def identify_User_Voice(lista_utenti_id):
         
     body = data 
         #Request URL 
-
+    id_Trovati = []
     for id in lista_utenti_id:
 
         try:
@@ -263,7 +263,8 @@ def identify_User_Voice(lista_utenti_id):
         #Guardo lo stato dell'operazione
             id_Trovato = Get_Operation_Status_Identify(Results_header['Operation-Location'])
             if id_Trovato != 404:
-                return id_Trovato
+                id_Trovati.append(id_Trovato)
+                return id_Trovati #THIS MUST BE AN ARRAY IN ORDER TO BE COERENT WITH THE APIs
         except Exception as e:
             print("ERROR_ Identfy:",e)
 
