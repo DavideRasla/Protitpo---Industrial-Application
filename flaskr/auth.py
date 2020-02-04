@@ -1,3 +1,5 @@
+# google api key AIzaSyCuOXmTTCdmi3jMu76ed4mH0bo7wmq1uBs
+
 import functools
 import base64
 import io
@@ -6,6 +8,7 @@ from PIL import Image
 from flaskr.face_Def import *
 from flaskr.voice_Def import *
 import wave
+import urllib.parse
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify,session,
@@ -52,6 +55,7 @@ def loadProfiles(fv,ids):
                 'email':data[3],
                 'birthday':data[6],
                 'addr':data[7],
+                'urladdr':urllib.parse.quote(data[7]),
                 'profession':data[5],
                 'interest':json.loads(data[9])['interest'],
                 'music':json.loads(data[10])['music'],
@@ -245,11 +249,11 @@ def register_voice():
 
 @bp.route('/profile', methods=('GET', 'POST'))
 def user_profile():
-    if 'users' in session:
-        g.users = session.get('users')  # reading and updating session data
-    else:
-        g.users = [] # setting session data
-    #g.users = loadProfiles('0',['5'])
+    ##if 'users' in session:
+    ##    g.users = session.get('users')  # reading and updating session data
+    ##else:
+    ##    g.users = [] # setting session data
+    g.users = loadProfiles('0',['5'])
     #g.users = loadProfiles()
     #g.users = [{
     #        'uname':'John','ulast':'Smith',

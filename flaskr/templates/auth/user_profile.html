@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
 	<title>SNOW</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -88,9 +89,28 @@
                         {% endfor %}
                         <br>
                         <small class="text-muted p-t-30 db">Address</small><h6>{{user['addr']}}</h6>
+                        {% if user['addr'] != "" %}
                         <div class="map-box">
-                            <iframe src="https://www.google.com/maps/embed?pb=via+pietro+giordani+8+pisa+56123;output=embed" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
+                           <!--<iframe src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyCuOXmTTCdmi3jMu76ed4mH0bo7wmq1uBs&output=embed" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>-->
+                            <iframe
+                                width="100%"
+                                height="150"
+                                frameborder="0" style="border:0"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCuOXmTTCdmi3jMu76ed4mH0bo7wmq1uBs&q={{user['urladdr']}}" 
+                                allowfullscreen>
+                            </iframe>
+                            <!--<iframe 
+                                width="600" 
+                                height="450" 
+                                frameborder="0" 
+                                style="border:0"
+                                src="https://www.google.com/maps/embed/v1/undefined?
+                                &q=Eiffel+Tower,Paris+France
+                                &key=AIzaSyCuOXmTTCdmi3jMu76ed4mH0bo7wmq1uBs" 
+                                allowfullscreen>
+                            </iframe> -->
                         </div> 
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -112,7 +132,8 @@
 <!--===============================================================================================-->
 	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
 <!--===============================================================================================-->
-	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+          
     <!--<div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
 </body>
 </html>

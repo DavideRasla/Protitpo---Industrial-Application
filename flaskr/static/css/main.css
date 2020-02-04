@@ -2,6 +2,14 @@
   color: transparent;
 } */
 
+.home-btn{
+ /* margin-right: auto;*/
+  cursor: pointer;
+}
+.dummy{
+  visibility: hidden;
+}
+
 .step-flex {
 	display: flex;
 	flex-direction: column;
@@ -425,8 +433,9 @@ iframe {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
+  /*flex-direction: column;*/
   align-items: center;
+  justify-content: space-between;
 
   background-repeat: no-repeat;
   background-size: cover;

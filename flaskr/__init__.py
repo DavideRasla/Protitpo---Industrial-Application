@@ -30,6 +30,12 @@ def create_app(test_cfg = None):
     @app.route('/')
     def st():
         return redirect(url_for('auth.start'))
+    
+    #@app.after_request
+    #def apply_caching(response):
+    #    response.headers["X-Frame-Options"] = "allow-from https://www.google.com/*"
+    #    response.headers['Access-Control-Allow-Origin'] = '*'
+    #    return response
 
     from . import db
     db.init_app(app)
