@@ -10,6 +10,10 @@ setup(
         'flask',
         'azure-cognitiveservices-vision-face',
         'image',
-        'requests'
+        'requests',
+        'pysimplegui',
+        'python-vlc',
+        'python-gtk2'
+        'easygui'
     ],
 )
