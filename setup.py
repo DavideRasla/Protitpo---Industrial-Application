@@ -13,7 +13,7 @@ setup(
         'requests',
         'pysimplegui',
         'python-vlc',
-        'python-gtk2'
+        'opencv-python',
         'easygui'
     ],
 )

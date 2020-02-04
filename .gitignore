@@ -8,9 +8,7 @@ instance/
 .pytest_cache/
 .coverage
 htmlcov/
-TestUserVoice/
-LogUser/
-RegUser/
+
 dist/
 build/
 *.egg-info/
