@@ -58,6 +58,7 @@ while True:
                 count = 11
 
             name = json.loads(response.text)
+            print("il nome è:", name)
             if len(name) < 4:
                 for t in range(0, len(name)):
                     names[t] = name[t]

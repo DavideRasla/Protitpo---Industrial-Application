@@ -34,11 +34,22 @@ def NameToExternal():
         Filename='flaskr/LogUser/Test_User.jpg'
 
         cv2.imwrite(Filename,img)
-
+        names = []
         Id_User_Verified = Identify_User()
         #Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
         #Id_User_Verified = cwd = os.getcwd()
-    
+        if 'User Not Found' not in Id_User_Verified:
+            for user in range(0, len(Id_User_Verified)):
+                db = get_db()
+                cur = db.cursor()
+                name = cur.execute(
+                    'SELECT uname FROM user WHERE faceid =(?)',(str(Id_User_Verified[user]),))
+                row = cur.fetchone()
+                names.append(row[0])
+                #name = ''
+                print("l'id è:",names[user])
+            return jsonify(names)
+
         return jsonify(Id_User_Verified)
     return 0 
 
