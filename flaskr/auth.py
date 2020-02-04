@@ -33,7 +33,7 @@ def loadProfileByFaceId(id):
 def loadProfileByVoiceId(id):
     db = get_db()
     cur = db.cursor()
-    cur.execute('SELECT * FROM user  WHERE voiceid =?',(id))
+    cur.execute('SELECT * FROM user  WHERE voiceid =(?)',(id,))
     row = cur.fetchone()
     return row
 
@@ -122,7 +122,20 @@ def register():
             print('UPDATE user SET faceid="'+str(New_User_Id)+'" WHERE id ='+str(row_id))
             
             db.commit()
+        if request.form['voice_loaded'] == '1':
+            New_User_ID_Voice = Add_User_Voice()
+            Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID_Voice)
+            Result_Of_Enrollment = Get_Operation_Status(Operation_ID_URL)
+            print("IL RISULTATO DELLA REGISTRAZIONE:",Result_Of_Enrollment) 
 
+            db.execute(
+                'UPDATE user SET voiceid=? WHERE id =?',
+                (str(New_User_ID_Voice),str(row_id))
+                
+            )
+        # print('UPDATE user SET faceid="'+str(New_User_Id)+'" WHERE id ='+str(row_id))
+            
+            db.commit()
         return jsonify('ok')
 
             #return redirect(url_for('auth.start'))
@@ -176,8 +189,11 @@ def login_voice():
         audio.close()
         
         ListaUtenti = Get_All_Profiles()
-        return identify_User_Voice(ListaUtenti)
+        Log_ID_VOICE_Verified =  identify_User_Voice(ListaUtenti)
 
+        g.users = loadProfiles('1',Log_ID_VOICE_Verified)
+        session['users'] = g.users # setting session data
+        return url_for('auth.user_profile')
     
  
     return render_template('auth/login_voice_revised.html')
@@ -206,12 +222,7 @@ def register_voice():
         audio.writeframes(data)
         audio.close()
 
-        New_User_ID_Voice = Add_User_Voice()
-        Operation_ID_URL = Add_Enrollment_To_Single_Profile(New_User_ID_Voice)
-        Result_Of_Enrollment = Get_Operation_Status(Operation_ID_URL)
-        print("IL RISULTATO DELLA REGISTRAZIONE:",Result_Of_Enrollment) 
-
-        return Result_Of_Enrollment
+        return 200 
     return render_template('auth/register_v2.html')
 
 @bp.route('/profile', methods=('GET', 'POST'))
