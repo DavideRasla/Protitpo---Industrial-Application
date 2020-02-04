@@ -29,7 +29,12 @@
 <!--===============================================================================================-->
 </head>
 <body>
-    <div class="row justify-content-center">
+    <div class="float-button"> 
+        <button class="btn btn-circle btn-primary float-btn" onclick="window.location.href='{{ url_for('auth.start') }}';">
+            <i class="fa fa-home"></i>
+        </button>
+    </div>
+    <div class="row justify-content-center flex-container" style="height:100%">
             {% if g.users|length == 0%}
             <div class="alert alert-danger" role="alert">
                 <h4 class="alert-heading">Matching not found!</h4>
@@ -42,29 +47,32 @@
             <div class="col-lg-4 col-xlg-3 col-md-5">
                 <div class="card">
                     <div class="card-body">
-                        <center class="m-t-30"> 
+                        <center class="m-t-10"> 
                             {% if user['sx'] == "M" %}
                             <img src="{{ url_for('static', filename='assets/user-icon/png/user-16.png') }}" class="img-circle" width="150">
                             {% else %}
                             <img src="{{ url_for('static', filename='assets/user-icon/png/user-7.png') }}" class="img-circle" width="150">
                             {% endif %}
-                            <h4 class="card-title m-t-10">{{user['uname'] + ' '+ user['ulast']}}</h4>
-                            <h6 class="card-subtitle">{{ user['profession'] }}</h6> 
-                            <div class="row text-center justify-content-md-center">
-                                {% if user['premium'] == 1 %}
-                                <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-trophy"></i> <font class="font-medium">Premium</font></a></div>
-                                {% else %}
-                                <div class="col-4" style="visibility: hidden;"><a href="javascript:void(0)" class="link"><i class="fa fa-trophy"></i> <font class="font-medium">Premium</font></a></div>
+                            <h4 class="card-title m-t-10">
+                                {{user['uname'] + ' '+ user['ulast']}}
+                                {% if user['premium'] == '1' %}
+                                &nbsp;<i class="fa fa-trophy"></i>
                                 {% endif %}
-                                <!-- <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-image"></i> <font class="font-medium">{{user['SX']}}</font></a></div> -->
-                            </div> 
+                            </h4>
+                            <h6 class="card-subtitle">{{ user['profession'] }}</h6> 
                         </center>
                     </div>
                     <div>
-                    <hr> </div>
+                    <hr style="margin:5px 0 5px 0;"> </div>
                     <div class="card-body"> 
-                        <small class="text-muted">Email address </small><h6>{{user['email']}}</h6> 
-                        <small class="text-muted">Birthday </small><h6>{{user['birthday']}}</h6> 
+                        <div class="row">
+                            <div class="col-md-6 text-center">
+                                <small class="text-muted">Email address </small><h6>{{user['email']}}</h6> 
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <small class="text-muted">Birthday </small><h6>{{user['birthday']}}</h6> 
+                            </div>
+                        </div>
                         <!--<small class="text-muted p-t-30 db">Phone</small><h6>+91 654 784 547</h6> -->
                         <small class="text-muted p-t-30 db">Social Profile</small>
                         <br>
@@ -99,16 +107,6 @@
                                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCuOXmTTCdmi3jMu76ed4mH0bo7wmq1uBs&q={{user['urladdr']}}" 
                                 allowfullscreen>
                             </iframe>
-                            <!--<iframe 
-                                width="600" 
-                                height="450" 
-                                frameborder="0" 
-                                style="border:0"
-                                src="https://www.google.com/maps/embed/v1/undefined?
-                                &q=Eiffel+Tower,Paris+France
-                                &key=AIzaSyCuOXmTTCdmi3jMu76ed4mH0bo7wmq1uBs" 
-                                allowfullscreen>
-                            </iframe> -->
                         </div> 
                         {% endif %}
                     </div>

@@ -1,5 +1,3 @@
-# google api key AIzaSyCuOXmTTCdmi3jMu76ed4mH0bo7wmq1uBs
-
 import functools
 import base64
 import io
@@ -156,7 +154,7 @@ def register():
             
             db.commit()
 
-        return jsonify('ok')
+        return url_for('auth.start')
 
             #return redirect(url_for('auth.start'))
         
@@ -253,29 +251,6 @@ def user_profile():
     ##    g.users = session.get('users')  # reading and updating session data
     ##else:
     ##    g.users = [] # setting session data
-    g.users = loadProfiles('0',['5'])
-    #g.users = loadProfiles()
-    #g.users = [{
-    #        'uname':'John','ulast':'Smith',
-    #        'sx':'M',
-    #        'email':'john.smith@fakemail.com',
-    #        'addr':'via giordano bruno 8, Pisa',
-    #        'profession':'plumber',
-    #        'interest':['Technology','Sport','Travel','Boardgames'],
-    #        'music':['Rock','Punk','Pop'],
-    #        'social':['tw','inst'],
-    #        'premium':0
-    #    },
-    #    {
-    #        'uname':'Teabeany','ulast':'Stone',
-    #        'sx':'F',
-    #        'email':'bean85@fakemail.com',
-    #        'addr':'dirty lake avenue 8, London',
-    #        'profession':'IT counseling group',
-    #        'interest':['Sport','Wine', 'Movie','Disco'],
-    #        'music':['Pop','Classic'],
-    #        'social':['inst','fb'],
-    #        'premium':1
-    #    }]
+    g.users = loadProfiles('0',['3']) #Test profile loading   
     return render_template('auth/user_profile.html')
     

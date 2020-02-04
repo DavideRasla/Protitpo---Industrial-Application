@@ -217,18 +217,22 @@
 								</button>
 							</div>  
 						</div>
-						<div id="textrec" style="height: 50%;display: none;">
-							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
-								<p style="text-align: center;">
+						<div id="textrec" style="display: none; height:100%;">
+							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height:100%;">
+								<p class="text-overflow">
 									La torre di Pisa (popolarmente torre pendente e, a Pisa, la Torre) è il campanile della cattedrale di Santa Maria Assunta, nella celeberrima piazza del Duomo di cui è il monumento più famoso per via della caratteristica pendenza, simbolo di Pisa e fra i simboli iconici d'Italia. Si tratta di un campanile a sé stante alto 57 metri (58,36 metri considerando il piano di fondazione)[1] costruito nell'arco di due secoli, tra il dodicesimo e il quattordicesimo secolo. Con una massa di 14.453 tonnellate,[1][2] vi predomina la linea curva, con giri di arcate cieche e sei piani di loggette. La pendenza è dovuta a un cedimento del terreno sottostante verificatosi già nelle prime fasi della costruzione.
-
 L'inclinazione dell'edificio misura 3,9° rispetto all'asse verticale. La torre è gestita dall'Opera della Primaziale Pisana,[4] ente che gestisce tutti i monumenti della piazza del Duomo di Pisa. È stata proposta come una delle sette meraviglie del mondo moderno. 
 I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le costruzioni adiacenti al mare in genere, le fondamenta vennero lasciate a riposare per un anno intero. Alcuni studi attribuiscono la paternità del progetto all'architetto pisano Diotisalvi, che nello stesso periodo stava costruendo il battistero. 
 								</p>
-							</div>  
-
+								<div style="display: flex; justify-content: space-around;align-items: center; width: 100%;">
+									<div id="recording" style="width:20px;height:20px;background-color:red;border-radius: 50%;"></div>
+									<button  type="button" class="btn-custom btn-blue" onclick="stopRecording()">
+										Stop
+									</button>
+								</div>  
+							</div>
 							
-					<div id="live">
+					<!--<div id="live">
                     <div  style=" min-height:490px;display: flex;align-items: center; justify-content: space-evenly; padding: 20px 40px 0px 40px;">
 						<div id="results" >
 
@@ -237,21 +241,24 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 									<button type="button" id="recordButton">Record</button>
 									<button type="button" id="pauseButton" >Pause</button>
 									<button type="button" id="stopButton" >Stop</button>
-						<ol id="recordingsList"></ol>
-								</div>
+								<ol id="recordingsList"></ol>
+							</div>
 						</div> 
 						</div>
-					</div>
+					</div>-->
 
 
 						</div>
-						<div id="recend" style="height: 100%;display: none;">
+						<div id="recend" style="height: 100%;display: none;"> 
 							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
-								<div id="audio_sample"></div>
-								<button  type="button" class="btn-custom btn-blue" onclick="startRecording()">
+								<p style="text-align: center;">
+									<b>Voice acquisition ended succesfully!</b></br>
+									Press the retry button if you want to execute again the recording procedure.
+								</p>
+								<button  type="button" class="btn-custom btn-blue" onclick="start_rec()">
 									Retry!
 								</button>
-							</div>  
+							</div>
 						</div>
 					</div>
 				</form>
@@ -292,6 +299,8 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
 	 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 	<script>
 
+		var fade_stat = 0;
+		var fade_int;
 		var snap = 3
 		var actual_snap = 0;
 		var total_snap = 0;
@@ -397,8 +406,16 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
         }
 
 		function start_rec(){
-			$('#voiceinsruction').toggle();
-			$('#textrec').toggle();
+			$('#voiceinsruction').hide();
+			$('#textrec').show();
+			$('#recend').hide();
+			setTimeout(stopRecording, 30000);
+			fade_int = setInterval(fade, 2000);
+			startRecording();
+		}
+
+		function fade(){
+			$('#recording').fadeToggle(3000);
 		}
 
 		function uploadimg(){
@@ -468,7 +485,7 @@ I lavori iniziarono il 9 agosto 1173. Come era solito fare con i fari e con le c
                 contentType: false,
                 type: 'POST',
                 success: function(data){
-                    console.log(data)
+                    window.location.href = data;
                 }
             });
 		}
@@ -510,14 +527,14 @@ var input; 							//MediaStreamAudioSourceNode we'll be recording
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext //audio context to help us record
 
-var recordButton = document.getElementById("recordButton");
+/*var recordButton = document.getElementById("recordButton");
 var stopButton = document.getElementById("stopButton");
 var pauseButton = document.getElementById("pauseButton");
 
 //add events to those 2 buttons
 recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
-pauseButton.addEventListener("click", pauseRecording);
+pauseButton.addEventListener("click", pauseRecording);*/
 
 function startRecording() {
 	console.log("recordButton clicked");
@@ -549,7 +566,7 @@ function startRecording() {
 		audioContext = new AudioContext(/*{sampleRate:16000,} DOESN'T WORK ON FIREFOX OR CHROME*/);
 
 		//update the format 
-		document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
+		//document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
 
 		/*  assign to gumStream for later use  */
 		gumStream = stream;
@@ -589,15 +606,19 @@ function pauseRecording(){
 }
 
 function stopRecording() {
+
+	clearInterval(fade_int);
+	$("#recend").show();
+	$('#textrec').hide();
 	console.log("stopButton clicked");
 
 	//disable the stop button, enable the record too allow for new recordings
-	stopButton.disabled = true;
+	/*stopButton.disabled = true;
 	recordButton.disabled = false;
-	pauseButton.disabled = true;
+	pauseButton.disabled = true;*/
 
 	//reset button just in case the recording is stopped while paused
-	pauseButton.innerHTML="Pause";
+	/*pauseButton.innerHTML="Pause";*/
 	
 	//tell the recorder to stop the recording
 	rec.stop();
@@ -620,7 +641,7 @@ function stopRecording() {
                 contentType: false,
                 type: 'POST',
                 success: function(data){
-                    alert(data);
+                    console.log(data);
                 }
             });
         }

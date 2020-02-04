@@ -2,6 +2,12 @@
   color: transparent;
 } */
 
+.text-overflow{
+  height: 250px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .home-btn{
  /* margin-right: auto;*/
   cursor: pointer;
