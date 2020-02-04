@@ -10,6 +10,24 @@ import vlc, easygui
 
 name = ''
 # Create a single vlc.Instance() to be share by (possible) multiple players.
+Users_Time_Saved ={  "User1" : {
+                        "name" : "",
+                        "minute" : 0
+                    },
+                    "User2" : {
+                        "name" : "",
+                        "minute" : 0
+                    },
+                    "User3" : {
+                        "name" : "",
+                        "minute" : 0
+                    },
+                    "User4" : {
+                        "name" : "",
+                        "minute" : 0
+                    },
+                    }
+Num_Faces = 0
 
 
 def Vision_LOOP():
@@ -42,6 +60,8 @@ def Vision_LOOP():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         # Detect the faces
         faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+        Num_Faces = len(faces)
+    
         if old_faces != len(faces) and len(faces) != 0:
             count+=1
         else:
@@ -74,6 +94,7 @@ def Vision_LOOP():
                 if len(name) < 4:
                     for t in range(0, len(name)):
                         names[t] = name[t]
+                        Users_Time_Saved['User1']['name'] = name[t] #Salvo nella struttura condivisa 
                 count = 0
             cv2.putText(img,names[i],(x, y-10), font, 2,(255,255,255),2,cv2.LINE_AA)
             i = i + 1
@@ -95,11 +116,14 @@ def VLC_LOOP():
         choice = easygui.buttonbox(title="@biglesp Audio Player",msg="Press Play to start",image=image,choices=["Play","Pause","Stop","New"])
         print(choice)
         if choice == "Play":
+            if Users_Time_Saved['User1']['minute'] != 0:
+                player.set_time(float(Users_Time_Saved['User1']['minute']))
             player.play()
         elif choice == "Pause":
             player.pause()
         elif choice == "Stop":
-            print("il tempo è:", player.get_position())
+            Users_Time_Saved['User1']['minute'] = player.get_position()
+            print("il tempo è:", Users_Time_Saved['User1']['minute'])
             player.stop()
         elif choice == "New":
             media = easygui.fileopenbox(title="Choose media to open")
