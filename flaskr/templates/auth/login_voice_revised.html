@@ -42,7 +42,7 @@
                 </div>
                 <div id="live">
                     <div  style=" min-height:490px;display: flex;align-items: center; justify-content: space-evenly; padding: 20px 40px 0px 40px;">
-					<div id="results" >
+					<!--<div id="results" >
 
 						<div id="controls" style="position: relative;top: 20%">
 						<div id="formats">Click on Record and say "My name is" </div>
@@ -52,7 +52,25 @@
 					<ol id="recordingsList"></ol>
 					
 							</div>
-					</div> 
+					</div> -->
+						<div id="voiceinsruction" style="height: 100%;">
+							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
+								<p style="text-align: center;">
+									<b>Voice login:</b></br>
+									Press start to record a voice sample.</br>
+									Press stop to authenticate the recording.
+									You will automatically be redirected to your profile.
+								</p>
+								<div style="display: flex; align-items: center;justify-content: space-around;width: 100%;">
+									<button id="recordButton" type="button" class="btn-custom btn-blue" >
+										Start!
+									</button>
+									<button id="stopButton" type="button" class="btn-custom btn-blue" >
+										Stop!
+									</button>
+								</div>
+							</div>  
+						</div>
                     </div>
                 </div>
                 <div id="preview" style="display: none;">
@@ -119,12 +137,12 @@ var audioContext //audio context to help us record
 
 var recordButton = document.getElementById("recordButton");
 var stopButton = document.getElementById("stopButton");
-var pauseButton = document.getElementById("pauseButton");
+//var pauseButton = document.getElementById("pauseButton");
 
 //add events to those 2 buttons
 recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
-pauseButton.addEventListener("click", pauseRecording);
+//pauseButton.addEventListener("click", pauseRecording);
 
 function startRecording() {
 	console.log("recordButton clicked");
@@ -156,7 +174,7 @@ function startRecording() {
 		audioContext = new AudioContext(/*{sampleRate:16000,} DOESN'T WORK ON FIREFOX OR CHROME*/);
 
 		//update the format 
-		document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
+		//document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
 
 		/*  assign to gumStream for later use  */
 		gumStream = stream;
@@ -201,10 +219,10 @@ function stopRecording() {
 	//disable the stop button, enable the record too allow for new recordings
 	stopButton.disabled = true;
 	recordButton.disabled = false;
-	pauseButton.disabled = true;
+	//pauseButton.disabled = true;
 
 	//reset button just in case the recording is stopped while paused
-	pauseButton.innerHTML="Pause";
+	//pauseButton.innerHTML="Pause";
 	
 	//tell the recorder to stop the recording
 	rec.stop();
