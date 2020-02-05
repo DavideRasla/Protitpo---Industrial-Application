@@ -201,7 +201,7 @@ def Get_Operation_Status_Identify(url_to_use):
        # print("Get_Operation_Status, results:: "+str(responseJson))
 
         if("High" in confidence or "Normal" in confidence):
-            print("Utente trovato! ID: ", id_Utente_Identificato)
+            print("GET_STATUS -> Utente trovato! ID: ", id_Utente_Identificato)
             return id_Utente_Identificato   
 
     except Exception as e:
@@ -264,6 +264,7 @@ def identify_User_Voice(lista_utenti_id):
             id_Trovato = Get_Operation_Status_Identify(Results_header['Operation-Location'])
             if id_Trovato != 404:
                 id_Trovati.append(id_Trovato)
+                print("LISTA ID TROVATI - VOCE':",id_Trovati)
                 return id_Trovati #THIS MUST BE AN ARRAY IN ORDER TO BE COERENT WITH THE APIs
         except Exception as e:
             print("ERROR_ Identfy:",e)
@@ -401,7 +402,7 @@ def Delete_A_Profile(id):
 #print(identify_User_Voice(ListaUtenti))
 #Get_Operation_Status(Operation_Identification_Url)
 #Delete_All_Profiles(ListaUtenti)
-#Delete_A_Profile(New_User_ID)
+#Delete_A_Profile('c0115f42-8ee2-4db0-a816-f92c9243e9f8')
 #ListaUtenti = Get_All_Profiles()
 #ListaUtenti = Get_All_Profiles()
 #print(ListaUtenti)
