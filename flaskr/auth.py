@@ -7,6 +7,7 @@ from flaskr.face_Def import *
 from flaskr.voice_Def import *
 import wave
 import urllib.parse
+import random
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify,session,
@@ -16,6 +17,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+def create_additional_data():
+    data = {
+        'temperature':random.randint(17,25),
+        'light':random.randint(0,100),
+        'movie_seconds':0,
+        'movie_name':'OpenCV_VISION/File_Video_2.mp4'
+    }
+    return json.dumps(data)
 
 
 def save_image_to_file(img,img_data):
@@ -150,7 +160,7 @@ def register():
                 'UPDATE user SET faceid=? WHERE id =?',
                 (str(New_User_Id),str(row_id))
             )
-            print('UPDATE user SET faceid="'+str(New_User_Id)+'" WHERE id ='+str(row_id))
+            #print('UPDATE user SET faceid="'+str(New_User_Id)+'" WHERE id ='+str(row_id))
             
             db.commit()
         if request.form['voice_loaded'] == '1':
@@ -168,6 +178,15 @@ def register():
         # print('UPDATE user SET faceid="'+str(New_User_Id)+'" WHERE id ='+str(row_id))
             
             db.commit()
+
+        #inserting additional data
+        user_data = create_additional_data()
+        db.execute(
+            'INSERT INTO additional_data (id, user_data) VALUES (?, ?)',
+            (str(row_id), user_data)    
+        )
+
+        db.commit()
         return url_for('auth.start')
 
             #return redirect(url_for('auth.start'))
