@@ -41,7 +41,7 @@
 					</span>
                 </div>
                 <div id="live">
-                    <div  style=" min-height:490px;display: flex;align-items: center; justify-content: space-evenly; padding: 20px 40px 0px 40px;">
+                    <div  style=" min-height:490px;display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; padding: 20px 40px 0px 40px;">
 					<!--<div id="results" >
 
 						<div id="controls" style="position: relative;top: 20%">
@@ -53,23 +53,23 @@
 					
 							</div>
 					</div> -->
-						<div id="voiceinsruction" style="height: 100%;">
-							<div style="display: flex;align-items: center;flex-direction: column; justify-content: space-evenly; height: 100%;">
-								<p style="text-align: center;">
-									<b>Voice login:</b></br>
-									Press start to record a voice sample.</br>
-									Press stop to authenticate the recording.
-									You will automatically be redirected to your profile.
-								</p>
-								<div style="display: flex; align-items: center;justify-content: space-around;width: 100%;">
-									<button id="recordButton" type="button" class="btn-custom btn-blue" >
-										Start!
-									</button>
-									<button id="stopButton" type="button" class="btn-custom btn-blue" >
-										Stop!
-									</button>
-								</div>
-							</div>  
+						<p id="instruction" style="text-align: center;">
+							<b>Voice login:</b></br>
+							Press start to record a voice sample.</br>
+							Press stop to authenticate the recording.
+							You will automatically be redirected to your profile.
+						</p>
+						<p id="wait" style="text-align: center;display: none;">
+							<b>Voice login:</b></br>
+							waiting server response. 
+						</p>
+						<div style="display: flex; align-items: center;justify-content: space-around;width: 100%;">
+							<button id="recordButton" type="button" class="btn-custom btn-blue" >
+								Start!
+							</button>
+							<button id="stopButton" type="button" class="btn-custom btn-blue" style="display: none ;">
+								Stop!
+							</button>
 						</div>
                     </div>
                 </div>
@@ -146,6 +146,9 @@ stopButton.addEventListener("click", stopRecording);
 
 function startRecording() {
 	console.log("recordButton clicked");
+	$('#recordButton').hide();
+	$('#stopButton').show();
+
 
 	/*
 		Simple constraints object, for more advanced audio features see
@@ -215,6 +218,9 @@ function pauseRecording(){
 
 function stopRecording() {
 	console.log("stopButton clicked");
+	$('#stopButton').hide();
+	$('#instruction').hide();
+	$('#wait').show();
 
 	//disable the stop button, enable the record too allow for new recordings
 	stopButton.disabled = true;
