@@ -15,9 +15,13 @@ CREATE TABLE IF NOT EXISTS user (
   music TEXT,
   voiceid TEXT,
   faceid TEXT,
-  sx TEXT
+  sx TEXT,
 );
 
+CREATE TABLE IF NOT EXISTS additional_data(
+  id INTEGER,
+  user_data TEXT
+);
 /*CREATE TABLE post (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author_id INTEGER NOT NULL,
