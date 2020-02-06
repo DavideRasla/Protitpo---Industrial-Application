@@ -52,8 +52,8 @@ def Vision_LOOP():
     count = 0
     img = 0
     frame = img
-    url = 'http://127.0.0.1:5000/api/get_name'
-    addr = 'http://localhost:5000'
+    url = 'https://10.42.0.1:5000/api/get_name'
+    addr = 'https://10.42.0.1:5000'
     test_url_GET_NAME = addr + '/api/get_name'
     test_url_GET_DATA = addr + '/api/get_Additional_data'
 
@@ -96,7 +96,7 @@ def Vision_LOOP():
                 old_faces = len(faces)
                 _, img_encoded = cv2.imencode('.jpg', img)
                 # send http request with image and receive response
-                response = requests.post(test_url_GET_NAME, data=img_encoded.tostring(), headers=headers)#PRENDO IL NOME
+                response = requests.post(test_url_GET_NAME, data=img_encoded.tostring(), headers=headers,verify=False)#PRENDO IL NOME
                 #  decode response
                 print(response.text)
                 if 'User Not Found' in json.loads(response.text):
@@ -107,7 +107,7 @@ def Vision_LOOP():
                 #name_dict = json.loads(response.text)
                 print("il nome e':", name)
                 #ORA PRENDO IL JSON DEI DATI
-                responseDATA = requests.post(test_url_GET_DATA, data=img_encoded.tostring(), headers=headers)#PRENDO I DATI
+                responseDATA = requests.post(test_url_GET_DATA, data=img_encoded.tostring(), headers=headers,verify=False)#PRENDO I DATI
 
                 response_DICT = ast.literal_eval(responseDATA.text)
                 DATA_ADDITIONAL_DICT= ast.literal_eval(response_DICT[0])
