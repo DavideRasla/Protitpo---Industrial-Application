@@ -14,6 +14,7 @@ setup(
         'pysimplegui',
         'python-vlc',
         'opencv-python',
-        'easygui'
+        'easygui',
+        'picamera[array]'
     ],
 )
