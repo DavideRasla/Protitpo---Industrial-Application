@@ -34,6 +34,10 @@ Users_Time_Saved ={  "User1" : {
                     },
                     }
 Num_Faces = 0
+x11 = ctypes.PyDLL("libX11.so")
+x11.XInitThreads()
+# To capture video from webcam. 
+cap = cv2.VideoCapture(0)
 def Vision_LOOP():
 
     name = ""
@@ -41,8 +45,7 @@ def Vision_LOOP():
     global Num_Faces
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
-    # To capture video from webcam. 
-    cap = cv2.VideoCapture(0)
+
     # To use a video file as input 
     # cap = cv2.VideoCapture('filename.mp4')
     old_faces = 0
@@ -53,8 +56,7 @@ def Vision_LOOP():
     addr = 'http://localhost:5000'
     test_url_GET_NAME = addr + '/api/get_name'
     test_url_GET_DATA = addr + '/api/get_Additional_data'
-    x11 = ctypes.PyDLL("libX11.so")
-    x11.XInitThreads()
+
 
 
     # prepare headers for http request
@@ -118,8 +120,12 @@ def Vision_LOOP():
                     Users_Time_Saved['User1']['name_FILM'] = DATA_ADDITIONAL_DICT["movie_name"]
                     Users_Time_Saved['User1']['temperature'] = DATA_ADDITIONAL_DICT["temperature"]
             cv2.putText(img,names[i],(x, y-10), font, 2,(255,255,255),2,cv2.LINE_AA)
-            i = i + 1
+        i = i + 1
         cv2.imshow('img', img)
+    #finewhile
+        k = cv2.waitKey(30) & 0xff
+        if k==8:
+            break
     cap.release()
 
 def VLC_LOOP():
