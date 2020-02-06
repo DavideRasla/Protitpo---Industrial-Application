@@ -275,7 +275,7 @@ def Delete_Log_Photos(): #Delete all the photos used for logging
 
 
 
-CreatePersonGroupID()
+#CreatePersonGroupID()
 #New_Id =  Add_Person('VerificaVera', '002')
 
 #Person = Get_Person('758aa814-8558-4f3d-a7de-5d5039c4be73') #Restituisce l'oggetto person

@@ -182,7 +182,7 @@ def register():
         #inserting additional data
         user_data = create_additional_data()
         db.execute(
-            'INSERT INTO additional_data (id, user_data) VALUES (?, ?)',
+            'INSERT INTO additionaldata (id, userdata) VALUES (?, ?)',
             (str(row_id), user_data)    
         )
 
