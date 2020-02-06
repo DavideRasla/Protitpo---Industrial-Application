@@ -5,4 +5,8 @@ export FLASK_ENV=development
 
 flask init-db
 
-flask run
+#localhost 
+#flask run
+
+#externally visible
+flask run --host=0.0.0.0
