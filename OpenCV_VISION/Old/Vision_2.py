@@ -10,8 +10,6 @@ import ast
 import ctypes
 from ctypes.util import find_library
 
-
-
 def Vision_LOOP():
     # Create a single vlc.Instance() to be share by (possible) multiple players.
     Users_Time_Saved ={  "User1" : {
