@@ -9,4 +9,4 @@ flask init-db
 #flask run
 
 #externally visible
-flask run --host=10.42.0.1 --cert=adhoc
+flask run --host=0.0.0.0 --cert=adhoc
