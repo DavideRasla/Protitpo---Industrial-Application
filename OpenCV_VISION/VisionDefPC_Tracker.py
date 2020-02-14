@@ -57,6 +57,8 @@ def Get_gaze(frame):
         text = "left"
     elif gaze.is_center():
         text = "center"
+    else:
+        text = "center"
 
 
     
