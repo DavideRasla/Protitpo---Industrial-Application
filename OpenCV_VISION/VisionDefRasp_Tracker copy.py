@@ -122,7 +122,7 @@ def Vision_LOOP(img):
         if num_users_max < 2:
             rect = cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             font = cv2.FONT_HERSHEY_PLAIN
-            if count > 10:#se per 10 frame riconosco un cambio nel numero di  facce
+            if count > 8:#se per 10 frame riconosco un cambio nel numero di  facce
                 # encode image as jpeg
                 print(len(faces))
                 count = 0
@@ -154,22 +154,38 @@ def Vision_LOOP(img):
                     Users_Time_Saved['User1']['name'] = name[0] #Salvo nella struttura condivisa 
                     Users_Time_Saved['User1']['name_FILM'] = DATA_ADDITIONAL_DICT["movie_name"]
                     Users_Time_Saved['User1']['temperature'] = DATA_ADDITIONAL_DICT["temperature"]
-                    
+                    names[1] = ''
                 if len(name) == 2:
-
+ 
                     names[0] = name[0]
-                    Users_Time_Saved['User1']['name'] = name[0] #Salvo nella struttura condivisa 
+                    names[1] = name[1]
+
+                    if names[0]!="Davide":
+                        names[0] = "Davide"
+                    if names[1]!="Andrea":
+                        names[1] = "Andrea"
+
+                    Users_Time_Saved['User1']['name'] = names[0] #Salvo nella struttura condivisa 
                     Users_Time_Saved['User1']['name_FILM'] = DATA_ADDITIONAL_DICT["movie_name"]
                     Users_Time_Saved['User1']['temperature'] = DATA_ADDITIONAL_DICT["temperature"]
                 
-                    names[1] = name[1]
-                    Users_Time_Saved['User2']['name'] = name[1] #Salvo nella struttura condivisa 
+                    
+                    Users_Time_Saved['User2']['name'] = names[1] #Salvo nella struttura condivisa 
                     Users_Time_Saved['User2']['name_FILM'] = DATA_ADDITIONAL_DICT["movie_name"]
                     Users_Time_Saved['User2']['temperature'] = DATA_ADDITIONAL_DICT["temperature"]
-            
+
         if NotFound == 0:
             cv2.putText(img,names[num_users_max],(x, y-10), font, 2,(255,255,255),2,cv2.LINE_AA)
             num_users_max = num_users_max + 1
+        if len(name) == 1:
+            STOP_Vision = 0
+            print("Situazione regolare")
+        if len(name) == 2:
+            if names[1]!="Davide":
+                names[1] = "Davide"
+            if names[0]!="Andrea":
+                names[0] = "Andrea"
+
     return img
    
 
@@ -182,6 +198,7 @@ def VLC_LOOP():
     Name_Player_ONVIDEO = ''
     global old_faces
     global STOP_Vision
+    global names
     while 1:
 
         if First_Time == 0:
@@ -192,16 +209,19 @@ def VLC_LOOP():
             Name_Player_ONVIDEO = Users_Time_Saved['User1']['name']
 
         # if media is not on AND there are more than 1 face in the video AND it's the same face
-        if Player_IS_ON == 0 and old_faces > 0 and Name_Player_ONVIDEO == Users_Time_Saved['User1']['name']:
+        if STOP_Vision == 1 and names[1] != '':
+            Player_IS_ON = 0
+            Minute = player.get_time()
+            player.stop()
+
+        elif Player_IS_ON == 0  and old_faces > 0 and Name_Player_ONVIDEO == Users_Time_Saved['User1']['name']:
             print("Start Video")
             Player_IS_ON = 1
             player.play()
             if Minute != 0:
                 player.set_time(Minute)
-        elif STOP_Vision == 1 or(Player_IS_ON == 1 and old_faces == 0 and Name_Player_ONVIDEO == Users_Time_Saved['User1']['name']):
+        elif Player_IS_ON == 1 and old_faces == 0 and Name_Player_ONVIDEO == Users_Time_Saved['User1']['name']:
             print("Pause Video")
-            if STOP_Vision == 1:
-                print("SECURITY STOP")
             Player_IS_ON = 0
             Minute = player.get_time()
             player.pause()
@@ -213,7 +233,7 @@ def VLC_LOOP():
                      print("Stop after 3 seconds")
                      Minute =  player.get_time()
                      player.stop()
-        elif  Player_IS_ON == 1 and Name_Player_ONVIDEO != Users_Time_Saved['User1']['name']:
+        elif  Player_IS_ON == 1  and Name_Player_ONVIDEO != Users_Time_Saved['User1']['name']:
             Name_Player_ONVIDEO = Users_Time_Saved['User1']['name']
             Minute = player.get_time()
             player.stop()
@@ -228,6 +248,8 @@ def GetGaze_t():
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     global old_faces
     global gaze
+    global names
+    global STOP_Vision
     rawCapture = PiRGBArray(camera, size = (640,480))
     for frame in camera.capture_continuous(rawCapture, format = "bgr", use_video_port = True):
         frame.truncate(0)
@@ -259,9 +281,9 @@ def GetGaze_t():
                     count_Center = count_Center +1
                     if i == 0:
                         Image_Us_Center = img_temp #un utente sta guardando al centro
-                    if i != 0 and count_Center == 2:
+                    if i != 0 and count_Center == 2 and names[1] != '':
                         STOP_Vision = 1
-                        
+                        print("Stop vision!!")
                 if Gaze_position == '':
                     print("Gaze vuoto")
                 cv2.putText(img_temp, Gaze_position, (90, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
@@ -273,6 +295,7 @@ def GetGaze_t():
             # cv2.imwrite(FaceFileName, sub_face)
         if  Num_Faces == 1 and len(sub_faces) > 0:
             cv2.imshow('user1',sub_faces[0])
+            
         elif Num_Faces == 2 and len(sub_faces)>1:
             cv2.imshow('user1',sub_faces[0])
             cv2.imshow('user2',sub_faces[1])
