@@ -17,7 +17,6 @@ setup(
         'easygui',
         'pyopenssl',
         'picamera[array]',
-        'pyopenssl',
-        'dlib'
+        'pyopenssl'
     ],
 )
