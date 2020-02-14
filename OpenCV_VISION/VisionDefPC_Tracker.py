@@ -247,7 +247,6 @@ def GetGaze_t():
                         Image_Us_Center = img_temp #un utente sta guardando al centro
                     if i != 0 and count_Center == 2:
                         STOP_Vision = 1
-                        print("Ferma tuttoooooooo", len(faces))
                 if Gaze_position == '':
                     print("Gaze vuoto")
                 cv2.putText(img_temp, Gaze_position, (90, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
@@ -276,7 +275,7 @@ if __name__ == "__main__":
    # t1 = threading.Thread(target=Vision_LOOP, args=())
     t2 = threading.Thread(target=VLC_LOOP, args=())
     t3 = threading.Thread(target=GetGaze_t, args=() )
-    print("ciao")
+    print("Start_Vision")
     # starting thread 1
    # t1.start()
     # starting thread 2

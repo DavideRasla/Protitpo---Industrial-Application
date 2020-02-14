@@ -45,7 +45,6 @@ Num_Faces = 0
 old_faces = 0
 count = 0
 gaze = GazeTracking()
-gaze2 = GazeTracking()
 STOP_Vision = 0
 regazed = 0
 names = ['','','','']
@@ -65,6 +64,8 @@ def Get_gaze(frame):
         text = "left"
     elif gaze.is_center():
         text = "center"
+    else:
+        text = "center"
 
 
     
@@ -76,14 +77,15 @@ def Vision_LOOP(img):
     global old_faces
     global count
     global names
+    global STOP_Vision
     name = ""
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
   
   
 
-    url = 'https://0.0.0.0:5000/api/get_name'
-    addr = 'https://0.0.0.0:5000'
+    url = 'https://10.42.0.1:5000/api/get_name'
+    addr = 'https://10.42.0.1:5000'
     test_url_GET_NAME = addr + '/api/get_name'
     test_url_GET_DATA = addr + '/api/get_Additional_data'
 
@@ -120,7 +122,7 @@ def Vision_LOOP(img):
         if num_users_max < 2:
             rect = cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             font = cv2.FONT_HERSHEY_PLAIN
-            if count > 20:#se per 10 frame riconosco un cambio nel numero di  facce
+            if count > 10:#se per 10 frame riconosco un cambio nel numero di  facce
                 # encode image as jpeg
                 print(len(faces))
                 count = 0
@@ -179,6 +181,7 @@ def VLC_LOOP():
     OldFaces_Filmed = 0
     Name_Player_ONVIDEO = ''
     global old_faces
+    global STOP_Vision
     while 1:
 
         if First_Time == 0:
@@ -195,8 +198,10 @@ def VLC_LOOP():
             player.play()
             if Minute != 0:
                 player.set_time(Minute)
-        elif Player_IS_ON == 1 and old_faces == 0 and Name_Player_ONVIDEO == Users_Time_Saved['User1']['name']:
+        elif STOP_Vision == 1 or(Player_IS_ON == 1 and old_faces == 0 and Name_Player_ONVIDEO == Users_Time_Saved['User1']['name']):
             print("Pause Video")
+            if STOP_Vision == 1:
+                print("SECURITY STOP")
             Player_IS_ON = 0
             Minute = player.get_time()
             player.pause()
@@ -219,7 +224,7 @@ def VLC_LOOP():
 
 
 def GetGaze_t():
-    cap = cv2.VideoCapture(0)
+    #cap = cv2.VideoCapture(0)
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     global old_faces
     global gaze
@@ -227,9 +232,9 @@ def GetGaze_t():
     for frame in camera.capture_continuous(rawCapture, format = "bgr", use_video_port = True):
         frame.truncate(0)
         frame.seek(0)
-        frame = Vision_LOOP(frame) #Se non funziona usare img e non frame
-        img = frame.array
 
+        img = frame.array
+        img = Vision_LOOP(img) #Se non funziona usare img e non frame
         # Convert to grayscale
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.1, 4)
@@ -237,16 +242,17 @@ def GetGaze_t():
        
      
         sub_faces = []
-        cv2.imshow('Gaze_situation', frame)
+        cv2.imshow('Gaze_situation', img)
         count_Center = 0
         i = 0
         Image_Us_Center = 0
         Gaze_position = ''
+        
         for (x, y, w, h) in faces:
                 
-                rect = cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+                rect = cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
                 font = cv2.FONT_HERSHEY_PLAIN
-                img_temp =frame[y:y+h, x:x+w]  
+                img_temp =img[y:y+h, x:x+w]  
                 Gaze_position, framex = Get_gaze(img_temp)
                 img_temp = framex
                 if "center" in Gaze_position:
@@ -255,7 +261,7 @@ def GetGaze_t():
                         Image_Us_Center = img_temp #un utente sta guardando al centro
                     if i != 0 and count_Center == 2:
                         STOP_Vision = 1
-                        print("Stop_Prototype", len(faces))
+                        
                 if Gaze_position == '':
                     print("Gaze vuoto")
                 cv2.putText(img_temp, Gaze_position, (90, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
