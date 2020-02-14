@@ -1,4 +1,4 @@
-import asyncio
+
 import io
 import glob
 import os
@@ -6,7 +6,7 @@ import sys
 import time
 import uuid
 import requests
-from urllib.parse import urlparse
+from urllib.parse import * 
 from io import BytesIO
 import base64
 from PIL import Image, ImageDraw

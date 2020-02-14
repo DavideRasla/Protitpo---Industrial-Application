@@ -14,6 +14,9 @@ setup(
         'pysimplegui',
         'python-vlc',
         'opencv-python',
-        'easygui'
+        'easygui',
+        'pyopenssl',
+        'picamera[array]',
+        'pyopenssl'
     ],
 )
