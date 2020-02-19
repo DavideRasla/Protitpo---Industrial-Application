@@ -8,7 +8,8 @@ from flaskr.voice_Def import *
 import wave
 import cv2
 from flask import jsonify
-import numpy as np 
+import numpy as np
+from datetime import datetime 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify,
 )
@@ -17,12 +18,17 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 
 bp = Blueprint('api', __name__, url_prefix='/api')
+dateTimeObj_init = datetime.now()
 
 @bp.route('/get_name', methods=('GET', 'POST'))
 def NameToExternal():
-    print('roba')
+    print("API: Get_Name()")
     if request.method == 'POST':
 
+        dateTimeObj = datetime.now()
+        difference = dateTimeObj - dateTimeObj_init
+        print("VISION called after: ", difference)
+        
         r = request
         # convert string of image data to uint8
         nparr = np.fromstring(r.data, np.uint8)
@@ -31,7 +37,7 @@ def NameToExternal():
         
         #return jsonify(request.form)
         #salvare il blob in wav nella cartella
-        print('eco')
+        
         Filename='flaskr/LogUser/Test_User.jpg'
 
         cv2.imwrite(Filename,img)
@@ -48,14 +54,15 @@ def NameToExternal():
                 row = cur.fetchone()
                 names.append(row[0])
                 #name = ''
-                print("l'id è:",names[user])
+                print("The name is:",names[user])
+
             return jsonify(names)
 
         return jsonify(Id_User_Verified)
 
 @bp.route('/get_Additional_data', methods=('GET', 'POST'))
 def DataToExternal():
-    print('roba')
+    print("API: Data_To_External()")
     if request.method == 'POST':
 
         r = request
@@ -65,11 +72,12 @@ def DataToExternal():
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         
         #return jsonify(request.form)
-        #salvare il blob in wav nella cartella
-        print('eco')
+        #salvare il blob in .jpg nella cartella
+        
         Filename='flaskr/LogUser/Test_User.jpg'
 
         cv2.imwrite(Filename,img)
+        print('Immagine ricevuta da VISION correttamente e scritta in LogUser. ')
         UserSData = []
         Id_User_Verified = Identify_User()
         #Id_User_Verified =  [file for file in glob.glob('./flaskr/LogUser/*.jpg')]
@@ -89,7 +97,7 @@ def DataToExternal():
  
                 print("Il JSON contenente gli user data e il nome e'",UserSData[user])
             return jsonify(UserSData)
-
+        
         return jsonify(Id_User_Verified)
     return 0 
 

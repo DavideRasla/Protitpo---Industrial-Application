@@ -42,6 +42,7 @@ STOP_Vision = 0
 regazed = 0
 names = ['','','','']
 def Get_gaze(frame):
+    global names
     text = ""
     
 
@@ -49,7 +50,10 @@ def Get_gaze(frame):
     frame_x = gaze.annotated_frame()
     
     text = ""
-
+    if names[0] != '':
+        names[0] = 'Davide'
+    if names[1] != '':
+        names[1] = 'Andrea'
 
     if gaze.is_right():
         text = "right"
@@ -57,7 +61,7 @@ def Get_gaze(frame):
         text = "left"
     elif gaze.is_center():
         text = "center"
-    else:
+    elif names[1]!='':
         text = "center"
 
 
@@ -115,7 +119,7 @@ def Vision_LOOP(img):
         if num_users_max < 2:
             rect = cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             font = cv2.FONT_HERSHEY_PLAIN
-            if count > 8:#se per 10 frame riconosco un cambio nel numero di  facce
+            if count > 20:#se per 10 frame riconosco un cambio nel numero di  facce
                 # encode image as jpeg
                 print(len(faces))
                 count = 0
@@ -141,7 +145,7 @@ def Vision_LOOP(img):
             #  print("La temperature e'", DATA_ADDITIONAL_DICT["temperature"])
 
                 Num_Faces = len(name)
-                print("la len name è", len(name))
+                print("la len name e'", len(name))
                 if len(name) == 1:
                     names[0] = name[0]
                     Users_Time_Saved['User1']['name'] = name[0] #Salvo nella struttura condivisa 

@@ -219,7 +219,7 @@ def Identify_User():
             print('Error is: ',e)
 
    # faceIdsList = [faceId]
-    #Second Phase: Given the test_face return the related user
+    #Second Phase: Given the test_face ID return the related user
 
     body = dict()
     body["personGroupId"] = personGroupId
@@ -238,9 +238,9 @@ def Identify_User():
         for x in range(0, len(responseJson)): 
             personId = responseJson[x]["candidates"][0]["personId"]
             confidence = responseJson[x]["candidates"][0]["confidence"]
-            print("PERSON ID: "+str(personId)+ ", and CONFIDENCE :"+str(confidence))
+            print("PERSON ID: "+str(personId))
             Id_Recognized.append(personId)
-            print(Id_Recognized) 
+          
     except Exception as e:
         print("Could not detect")
         return "User Not Found"
@@ -284,7 +284,7 @@ def Delete_Log_Photos(): #Delete all the photos used for logging
 #Add_Images_to_single_person(New_Id)
 
 #Delete_EntirePersonGroup('users_db')
-#Delete_Single_Person('37f62a15-baec-4c16-aa70-a8b5f437a642')
+#Delete_Single_Person('dd04d7aa-892b-4d2c-be9e-ab732f5286b8')
 #print(List_All_Users_Inside_A_PersonGroup('users_db'))
 #print(List_All_Person_Groups())
 #Train_Person_Group('users_db')
